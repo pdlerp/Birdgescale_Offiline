@@ -38,6 +38,7 @@ namespace BridgeScaleDotNet
         string connString = $@"Server=(localdb)\MSSQLLocalDB;AttachDbFilename=D:\Data\BS4.mdf;Integrated Security=True;Connect Timeout=30;";
 
 
+
         DataTable dt;
         DataTable dt2;
         SerialPort serialPort1 = new SerialPort();
