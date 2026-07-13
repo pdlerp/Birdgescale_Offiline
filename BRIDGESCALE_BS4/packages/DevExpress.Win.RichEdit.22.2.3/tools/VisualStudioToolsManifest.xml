@@ -1,0 +1,7 @@
+<FileList>
+  <File Reference="DevExpress.XtraRichEdit.v22.2.dll">
+    <ToolboxItems UIFramework="WinForms" VSCategory="DX.22.2: Rich Text Editor">
+      <Item Type="DevExpress.XtraRichEdit.RichEditControl" />
+    </ToolboxItems>
+  </File>
+</FileList>

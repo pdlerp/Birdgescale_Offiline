@@ -1,0 +1,14 @@
+# Setup / release files
+BRIDGESCALE_BS4/BS4Setup/Release.rar
+BRIDGESCALE_BS4/BS4Setup/Release/
+*.rar
+*.msi
+*.exe
+*.zip
+
+# Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
