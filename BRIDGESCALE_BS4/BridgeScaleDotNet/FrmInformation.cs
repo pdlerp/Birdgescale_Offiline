@@ -38,7 +38,6 @@ namespace BridgeScaleDotNet
         string connString = $@"Server=(localdb)\MSSQLLocalDB;AttachDbFilename=D:\Data\BS4.mdf;Integrated Security=True;Connect Timeout=30;";
 
 
-
         DataTable dt;
         DataTable dt2;
         SerialPort serialPort1 = new SerialPort();
@@ -149,7 +148,7 @@ namespace BridgeScaleDotNet
             syncTimer.Interval = 1000;
             _syncSeconds = 300;
             syncTimer.Start();
-            lblSyncStatus.Text = "Next sync in ...";
+            lblSyncStatus.Text = "Data sync every 5 minutes";
             
         }
         private async void syncTimer_Tick(object sender, EventArgs e)
@@ -356,8 +355,8 @@ namespace BridgeScaleDotNet
 
             if (LocalStorage.IsFirstWeight == 1)
             {
-                query = $@"SELECT BSNameWithID =  a.ScaleName + cast(ISNULL(MAX(weight_id), 10000) + 1 as varchar(150))
-                        ,weight_id = ISNULL(MAX(weight_id), 10000) + 1
+                query = $@"SELECT BSNameWithID =  a.ScaleName + cast(ISNULL(MAX(weight_id), 115000) + 1 as varchar(150))
+                        ,weight_id = ISNULL(MAX(weight_id), 115000) + 1
                         FROM Scale_Counter  a
                         left join Scale_Information b with (nolock) on a.CounterID = b.CounterID
                         WHERE a.CounterID = {counterID}
@@ -402,8 +401,8 @@ namespace BridgeScaleDotNet
             {
                 query = $@"
             SELECT 
-                BSNameWithID = a.ScaleName + CAST(ISNULL(MAX(weight_id), 10000) + 1 AS varchar(150)),
-                weight_id = ISNULL(MAX(weight_id), 10000) + 1
+                BSNameWithID = a.ScaleName + CAST(ISNULL(MAX(weight_id), 115000) + 1 AS varchar(150)),
+                weight_id = ISNULL(MAX(weight_id), 115000) + 1
             FROM Scale_Counter a
             LEFT JOIN Scale_Information b with (nolock) 
                 ON a.CounterID = b.CounterID
@@ -950,7 +949,7 @@ namespace BridgeScaleDotNet
                     TransferFrom     = @TransferFrom,
                     TransferTo       = @TransferTo,
                     SellerName       = @SellerName,
-                    BuyerName        = @BuyerName
+                    BuyerName        = @BuyerName,
                     IsSyncDataToServer = @IsSyncDataToServer
                     WHERE weight_id      = @weight_id AND CounterID = @CounterID";
 

@@ -92,14 +92,14 @@
             this.textMessage1.BackColor = System.Drawing.Color.MistyRose;
             this.textMessage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textMessage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textMessage1.ForeColor = System.Drawing.Color.Coral;
+            this.textMessage1.ForeColor = System.Drawing.Color.MediumOrchid;
             this.textMessage1.Location = new System.Drawing.Point(215, 359);
             this.textMessage1.Multiline = true;
             this.textMessage1.Name = "textMessage1";
             this.textMessage1.ReadOnly = true;
             this.textMessage1.Size = new System.Drawing.Size(566, 58);
             this.textMessage1.TabIndex = 31;
-            this.textMessage1.Text = "Sync Pending";
+            this.textMessage1.Text = "Data sync every 5 minutes";
             this.textMessage1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FrmMain

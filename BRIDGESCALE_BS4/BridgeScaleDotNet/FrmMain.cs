@@ -25,8 +25,8 @@ namespace BridgeScaleDotNet
         {
             // Timer 
             syncTimer = new System.Windows.Forms.Timer();
-            //syncTimer.Interval = 300000; // 5 minutes
-            syncTimer.Interval = 60000; // 1 Min
+            syncTimer.Interval = 300000; // 5 minutes
+            //syncTimer.Interval = 60000; // 1 Min
             syncTimer.Tick += syncTimer_Tick;
             syncTimer.Start();
 

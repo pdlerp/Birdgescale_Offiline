@@ -160,11 +160,13 @@
             // lblSyncStatus
             // 
             this.lblSyncStatus.AutoSize = true;
-            this.lblSyncStatus.Location = new System.Drawing.Point(1162, 545);
+            this.lblSyncStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSyncStatus.ForeColor = System.Drawing.Color.Purple;
+            this.lblSyncStatus.Location = new System.Drawing.Point(1121, 552);
             this.lblSyncStatus.Name = "lblSyncStatus";
-            this.lblSyncStatus.Size = new System.Drawing.Size(88, 16);
+            this.lblSyncStatus.Size = new System.Drawing.Size(188, 16);
             this.lblSyncStatus.TabIndex = 31;
-            this.lblSyncStatus.Text = "lblSyncStatus";
+            this.lblSyncStatus.Text = "Data sync every 5 minutes";
             // 
             // textMessage
             // 
@@ -479,6 +481,7 @@
             this.txtGrossWeight.Location = new System.Drawing.Point(179, 411);
             this.txtGrossWeight.Multiline = true;
             this.txtGrossWeight.Name = "txtGrossWeight";
+            this.txtGrossWeight.ReadOnly = true;
             this.txtGrossWeight.Size = new System.Drawing.Size(329, 34);
             this.txtGrossWeight.TabIndex = 0;
             this.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -489,6 +492,7 @@
             this.txtTareWeight.Location = new System.Drawing.Point(179, 453);
             this.txtTareWeight.Multiline = true;
             this.txtTareWeight.Name = "txtTareWeight";
+            this.txtTareWeight.ReadOnly = true;
             this.txtTareWeight.Size = new System.Drawing.Size(329, 34);
             this.txtTareWeight.TabIndex = 0;
             this.txtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
