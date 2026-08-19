@@ -94,7 +94,9 @@ namespace BridgeScaleDotNet
             frmInfo.Show();
             this.Hide();
             LocalStorage.IsFirstWeight = 1;
-            frmInfo.GetWeightID();
+            LocalStorage.GrossWeight = 0;
+            LocalStorage.TareWeight = 0;
+            frmInfo.GetWeightID();            
             frmInfo.WeightType("ALL");
         }
         // 2nd Weight

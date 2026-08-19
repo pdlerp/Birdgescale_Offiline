@@ -12,6 +12,9 @@ namespace BridgeScaleDotNet.Models
         public static string UserName { get; set; }
         public static string Password { get; set; }
         public static int IsFirstWeight { get; set; } = 1;
-        public static int CounterID { get; set; }
+        public static int GrossWeight { get; set; } = 0;
+        public static int TareWeight { get; set; } = 0;
+        public static string CounterID { get; set; }
+        public static int OperatorID { get; set; }
     }
 }

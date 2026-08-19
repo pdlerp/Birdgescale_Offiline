@@ -249,7 +249,7 @@ namespace BridgeScaleDotNet
                             from Scale_Operator_ScalePermission a
                             left join Scale_Counter b on a.CounterID = b.CounterID
                             left join Scale_Operator o on a.OperatorID = o.OperatorID
-                            Where isnull(b.IsActive,0) = 1 and o.Name =  '{LocalStorage.UserName}'";
+                            Where isnull(b.IsActive,0) = 1 and o.Name =  '{LocalStorage.UserName}' and a.CounterID = '{LocalStorage.CounterID}'";
 
             dt = DbContext.Execute(query);
 
@@ -455,6 +455,9 @@ namespace BridgeScaleDotNet
             if (LocalStorage.IsFirstWeight == 1)
             {
                 status = 2;
+                // added 19 aug26
+                gWeight = 0;
+                tWeight = 0;
             }
             else
             {
