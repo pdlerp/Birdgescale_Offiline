@@ -1,33 +1,17 @@
 ﻿using BridgeScaleDotNet.Models;
 using BridgeScaleDotNet.Services;
 using BTLERP.Web.Report.Scale;
-using DevExpress.Utils.Html.Internal;
-using DevExpress.XtraPrinting.Native.WebClientUIControl;
 using DevExpress.XtraReports.UI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.IO.Ports;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Sockets;
-using System.Reflection.Emit;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Media.Media3D;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace BridgeScaleDotNet
 {
@@ -48,7 +32,8 @@ namespace BridgeScaleDotNet
         string informationID = null;
 
         bool _isBindingScale = false;
-        //bool _isBindingWeightID = false;   // 👈 নতুন লাইন
+        bool _isBindingWeightID = false;
+        bool _isLoadingWeightInformation = false;
 
         double gWeight = 0;
         double tWeight = 0;
@@ -59,7 +44,6 @@ namespace BridgeScaleDotNet
         bool exists;
 
         private DataTable _allWeightData;
-        private bool _isWeightFiltering = false;
 
         private DataTable _allMeterialCode;
         private bool _isBinding = false;
@@ -95,6 +79,7 @@ namespace BridgeScaleDotNet
             
 
             InitializeComponent();
+            //ApplyProfessionalStyle();
             Timer();
             informationID = null;
 
@@ -120,8 +105,6 @@ namespace BridgeScaleDotNet
             cmbWeightID.DropDownStyle = ComboBoxStyle.DropDown;
             cmbWeightID.AutoCompleteMode = AutoCompleteMode.None;
             cmbWeightID.AutoCompleteSource = AutoCompleteSource.None;
-            cmbWeightID.TextUpdate += cmbWeightID_TextUpdate;
-
             // Search option enable for cmbSeller
             cmbSeller.DropDownStyle = ComboBoxStyle.DropDown;
             cmbSeller.AutoCompleteMode = AutoCompleteMode.None;
@@ -140,6 +123,161 @@ namespace BridgeScaleDotNet
             cmbMaterial.AutoCompleteMode = AutoCompleteMode.None;
             cmbMaterial.AutoCompleteSource = AutoCompleteSource.None;
             cmbMaterial.TextUpdate += cmbMaterial_TextUpdate;
+        }
+
+        private void ApplyProfessionalStyle()
+        {
+            var pageBack = Color.FromArgb(243, 246, 250);
+            var panelBack = Color.White;
+            var labelColor = Color.FromArgb(51, 65, 85);
+            var inputBack = Color.FromArgb(248, 250, 252);
+            var readOnlyBack = Color.FromArgb(241, 245, 249);
+            var borderColor = Color.FromArgb(203, 213, 225);
+            var primary = Color.FromArgb(37, 99, 235);
+            var success = Color.FromArgb(22, 163, 74);
+            var danger = Color.FromArgb(220, 38, 38);
+            var warning = Color.FromArgb(124, 45, 18);
+            var sync = Color.FromArgb(79, 70, 229);
+
+            BackColor = pageBack;
+            Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            ClientSize = new Size(ClientSize.Width, 760);
+
+            panel1.Location = new Point(panel1.Left, 108);
+            panel1.Size = new Size(panel1.Width, 620);
+            panel1.BackColor = panelBack;
+            panel1.BorderStyle = BorderStyle.None;
+            panel1.Paint += (sender, e) =>
+            {
+                using (var pen = new Pen(borderColor))
+                {
+                    e.Graphics.DrawRectangle(pen, 0, 0, panel1.Width - 1, panel1.Height - 1);
+                }
+            };
+
+            transferPanel.BackColor = panelBack;
+            transferPanel.ForeColor = labelColor;
+            transferPanel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            transferPanel.Height = 52;
+
+            foreach (var label in new[]
+            {
+                label1, label2, label3, label4, label5, label6, label7, label8, label9,
+                label10, label11, label12, label13, label15, label16, label17,
+                label18, label22, lblChallan
+            })
+            {
+                label.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                label.ForeColor = labelColor;
+            }
+
+            label14.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            label14.ForeColor = Color.FromArgb(15, 23, 42);
+
+            label19.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            label19.ForeColor = warning;
+            label19.Text = "Out Weight = Unload Truck\r\nIn Weight = Load Truck";
+
+            foreach (var separator in new[] { label20, label21 })
+            {
+                separator.Text = "";
+                separator.Height = 1;
+                separator.BackColor = borderColor;
+            }
+
+            foreach (var combo in new[]
+            {
+                cmbScale, cmbWeightID, cmbWeightType, cmbMaterial, cmbSeller, cmbBuyer,
+                cmbTransferFrom, cmbTransferTo
+            })
+            {
+                combo.Font = new Font("Segoe UI", 11F);
+                combo.BackColor = Color.White;
+                combo.ForeColor = Color.FromArgb(15, 23, 42);
+                combo.ItemHeight = 24;
+                combo.Size = new Size(combo.Width, 34);
+                combo.IntegralHeight = false;
+            }
+
+            foreach (var textBox in new[]
+            {
+                txtOperatorName, txtQty, txtDriverName, txtTruckNo, txtChallanNo,
+                txtSellerCode, txtSellerAddress, txtBuyerCode, txtBuyerAddress
+            })
+            {
+                textBox.Font = new Font("Segoe UI", 10F);
+                textBox.BorderStyle = BorderStyle.FixedSingle;
+                textBox.BackColor = textBox.ReadOnly ? readOnlyBack : inputBack;
+                textBox.ForeColor = Color.FromArgb(15, 23, 42);
+            }
+
+            txtOperatorName.Enabled = true;
+            txtOperatorName.ReadOnly = true;
+            txtOperatorName.TabStop = false;
+            txtOperatorName.BackColor = readOnlyBack;
+
+            foreach (var weightTextBox in new[] { txtGrossWeight, txtTareWeight })
+            {
+                weightTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+                weightTextBox.BorderStyle = BorderStyle.FixedSingle;
+                weightTextBox.BackColor = Color.FromArgb(236, 253, 245);
+                weightTextBox.ForeColor = Color.FromArgb(6, 78, 59);
+            }
+
+            foreach (var timeLabel in new[] { lblGrossWeightTime, lblTareWeightTime })
+            {
+                timeLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                timeLabel.ForeColor = Color.FromArgb(100, 116, 139);
+            }
+
+            txtScaleWeight.BackColor = Color.FromArgb(15, 23, 42);
+            txtScaleWeight.ForeColor = Color.White;
+            txtScaleWeight.BorderStyle = BorderStyle.None;
+            txtScaleWeight.Font = new Font("Segoe UI", 38F, FontStyle.Bold);
+
+            StyleButton(btnSave, success);
+            StyleButton(btnReport, primary);
+            StyleButton(button3, danger);
+            StyleButton(btnSync, sync);
+            StyleButton(btnSeller, primary);
+            StyleButton(btnBuyer, primary);
+
+            btnSeller.Text = "+";
+            btnBuyer.Text = "+";
+            btnSeller.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnBuyer.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+
+            btnRefresh.FlatStyle = FlatStyle.Flat;
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.BackColor = Color.FromArgb(226, 232, 240);
+
+            chkTransfer.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            chkTransfer.ForeColor = Color.FromArgb(127, 29, 29);
+            chkTransfer.BackColor = panelBack;
+
+            textMessage.BorderStyle = BorderStyle.FixedSingle;
+            textMessage.BackColor = Color.FromArgb(255, 251, 235);
+            textMessage.ForeColor = Color.FromArgb(146, 64, 14);
+            textMessage.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblSyncStatus.AutoSize = false;
+            lblSyncStatus.Location = new Point(textMessage.Left, 592);
+            lblSyncStatus.Size = new Size(260, 22);
+
+            textMessage.Location = new Point(textMessage.Left, 618);
+            textMessage.Size = new Size(textMessage.Width, 34);
+
+            lblSyncStatus.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblSyncStatus.ForeColor = Color.FromArgb(79, 70, 229);
+        }
+
+        private void StyleButton(System.Windows.Forms.Button button, Color backColor)
+        {
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.BackColor = backColor;
+            button.ForeColor = Color.White;
+            button.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            button.Cursor = Cursors.Hand;
         }
 
         private void Timer()
@@ -365,22 +503,30 @@ namespace BridgeScaleDotNet
 
             dt = DbContext.Execute(query);
 
-            cmbWeightID.DataSource = null;
-            cmbWeightID.Items.Clear();
-            cmbWeightID.DisplayMember = "BSNameWithID";
-            cmbWeightID.ValueMember = "weight_id";
-            cmbWeightID.DataSource = dt;
-
-            txtHiddenWeightID.Text = null;
-
-            if (LocalStorage.IsFirstWeight == 1 && dt.Rows.Count > 0)
+            _isBindingWeightID = true;
+            try
             {
-                txtHiddenWeightID.Text = dt.Rows[0]["weight_id"].ToString();
+                cmbWeightID.DataSource = null;
+                cmbWeightID.Items.Clear();
+                cmbWeightID.DisplayMember = "BSNameWithID";
+                cmbWeightID.ValueMember = "weight_id";
+                cmbWeightID.DataSource = dt;
+
+                txtHiddenWeightID.Text = null;
+
+                if (LocalStorage.IsFirstWeight == 1 && dt.Rows.Count > 0)
+                {
+                    txtHiddenWeightID.Text = dt.Rows[0]["weight_id"].ToString();
+                }
+                else
+                {
+                    cmbWeightID.SelectedIndex = -1;
+                    cmbWeightID.Text = "";
+                }
             }
-            else
+            finally
             {
-                cmbWeightID.SelectedIndex = -1;
-                cmbWeightID.Text = "";
+                _isBindingWeightID = false;
             }
         }
         public void GetWeightID()
@@ -414,22 +560,30 @@ namespace BridgeScaleDotNet
 
             _allWeightData = dt != null ? dt.Copy() : null;
 
-            cmbWeightID.DataSource = null;
-            cmbWeightID.Items.Clear();
-            cmbWeightID.DisplayMember = "BSNameWithID";
-            cmbWeightID.ValueMember = "weight_id";
-            cmbWeightID.DataSource = dt;
-
-            txtHiddenWeightID.Text = null;
-
-            if (LocalStorage.IsFirstWeight == 1 && dt != null && dt.Rows.Count > 0)
+            _isBindingWeightID = true;
+            try
             {
-                txtHiddenWeightID.Text = Convert.ToString(dt.Rows[0]["weight_id"]);
+                cmbWeightID.DataSource = null;
+                cmbWeightID.Items.Clear();
+                cmbWeightID.DisplayMember = "BSNameWithID";
+                cmbWeightID.ValueMember = "weight_id";
+                cmbWeightID.DataSource = dt;
+
+                txtHiddenWeightID.Text = null;
+
+                if (LocalStorage.IsFirstWeight == 1 && dt != null && dt.Rows.Count > 0)
+                {
+                    txtHiddenWeightID.Text = Convert.ToString(dt.Rows[0]["weight_id"]);
+                }
+                else
+                {
+                    cmbWeightID.SelectedIndex = -1;
+                    cmbWeightID.Text = "";
+                }
             }
-            else
+            finally
             {
-                cmbWeightID.SelectedIndex = -1;
-                cmbWeightID.Text = "";
+                _isBindingWeightID = false;
             }
         }
 
@@ -450,6 +604,8 @@ namespace BridgeScaleDotNet
 
         private void cmbWeightType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_isLoadingWeightInformation) return;
+
             //LocalStorage.IsFirstWeight = 0;
 
             if (LocalStorage.IsFirstWeight == 1)
@@ -531,8 +687,7 @@ namespace BridgeScaleDotNet
 
         private void cmbWeightID_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (_isFilteringWeight) return;
-            ResetForm();
+            if (_isBindingWeightID || _isFilteringWeight) return;
 
             string weightTypeID = "";
 
@@ -561,6 +716,7 @@ namespace BridgeScaleDotNet
                 return;
 
             txtHiddenWeightID.Text = weightID.ToString();
+            ResetForm();
 
             //string bsName = cmbScale.SelectedValue.ToString();
             //string queryInfo = $"SELECT * FROM Scale_Information WHERE weight_id = @weightID AND BSName = '{bsName}'";
@@ -584,122 +740,139 @@ namespace BridgeScaleDotNet
                     {
                         DataRow r = dtInfo.Rows[0];
 
-                        hiddenWeightIDReport.Text = r["InformationID"].ToString();
+                        bool hasGrossWeight = false;
+                        bool hasTareWeight = false;
 
-                        // Seller / Buyer
-                        if (r["ClientID_Seller"] != DBNull.Value)
+                        _isLoadingWeightInformation = true;
+                        try
                         {
-                            cmbSeller.SelectedValue = (int)r["ClientID_Seller"];
-                        }
-                        else
-                        {
-                            cmbSeller.SelectedValue = 0;
-                            cmbSeller.Text = r["SellerName"].ToString();
-                        }
+                            hiddenWeightIDReport.Text = r["InformationID"].ToString();
 
-
-                        if (r["ClientID_Buyer"] != DBNull.Value)
-                        {
-                            cmbBuyer.SelectedValue = (int)r["ClientID_Buyer"];
-                        }
-                        else
-                        {
-                            cmbBuyer.SelectedValue = 0;
-                            cmbBuyer.Text = r["BuyerName"].ToString();
-                        }
-
-
-                        // Weight type
-                        //weightTypeID = SafeValue(r["weight_type"]);
-                        weightTypeID = SafeValue(r["weight_typeID"]);
-                        cmbWeightType.SelectedValue = (weightTypeID == "1") ? 2 : 1;
-
-
-                        LoadMaterials();
-
-                        // Material
-                        if (!string.IsNullOrEmpty(SafeValue(r["matrial_code"])))
-                        {
-                            cmbMaterial.SelectedValue = SafeValue(r["matrial_code"]);
-                        }
-
-                        // Counter
-                        if (!string.IsNullOrEmpty(SafeValue(r["CounterID"])))
-                        {
-                            cmbScale.SelectedValue = SafeValue(r["CounterID"]);
-                        }
-
-                        txtQty.Text = SafeValue(r["quantity"]);
-
-                        // Challan
-                        if (!string.IsNullOrEmpty(r["challan"]?.ToString()))
-                        {
-                            lblChallan.Visible = true;
-                            txtChallanNo.Visible = true;
-                            txtChallanNo.Text = r["challan"].ToString();
-                        }
-
-                        // Operator / Driver / Truck Info
-                        txtDriverName.Text = r["driver_name"]?.ToString();
-                        txtTruckNo.Text = r["truck_no"]?.ToString();
-
-                        // Weight values
-                        txtGrossWeight.Text = SafeValue(r["g_w_unite"]);
-                        txtTareWeight.Text = SafeValue(r["t_w_unite"]);
-
-
-                        double.TryParse(SafeValue(r["g_w_unite"]), out gWeight);
-                        double.TryParse(SafeValue(r["t_w_unite"]), out tWeight);
-
-                        if (gWeight != 0 && tWeight != 0)
-                            status = 0;
-
-                        // Date/Time labels
-                        lblGrossWeightTime.Text = "Date and Time";
-                        gw_time = null;
-                        tw_time = null;
-                        if (gWeight != 0 && r["g_w_time"] != DBNull.Value)
-                        {
-                            var dtGross = Convert.ToDateTime(r["g_w_time"]);
-                            lblGrossWeightTime.Text = dtGross.ToString("dd-MMM-yyyy  HH:mm tt");
-                            gw_time = Convert.ToDateTime(r["g_w_time"]);
-                        }
-
-                        lblTareWeightTime.Text = "Date and Time";
-                        if (tWeight != 0 && r["t_w_time"] != DBNull.Value)
-                        {
-                            var dtTare = Convert.ToDateTime(r["t_w_time"]);
-                            lblTareWeightTime.Text = dtTare.ToString("dd-MMM-yyyy  HH:mm tt");
-                            tw_time = Convert.ToDateTime(r["t_w_time"]);
-                        }
-
-                        firstWeightType = SafeValue(r["weight_type"]);
-
-
-
-                        // Client table থেকে আবার name load করতে চাইলে (তোমার আগের logic)
-                        using (SqlCommand cmdClient = new SqlCommand(queryClient, conn))
-                        {
-                            cmdClient.Parameters.AddWithValue("@clintCode", cmbSeller.Text);
-                            SqlDataAdapter daClient = new SqlDataAdapter(cmdClient);
-                            DataTable dtClient = new DataTable();
-                            daClient.Fill(dtClient);
-
-                            if (dtClient.Rows.Count > 0)
+                            // Seller / Buyer
+                            if (r["ClientID_Seller"] != DBNull.Value)
                             {
-                                // NOTE: এখানে আসল কলাম নাম অনুযায়ী ঠিক করে নিতে হবে
-                                // cmbSeller.SelectedValue = dtClient.Rows[0]["ClientID"]?.ToString();
+                                cmbSeller.SelectedValue = (int)r["ClientID_Seller"];
+                            }
+                            else
+                            {
+                                cmbSeller.SelectedValue = 0;
+                                cmbSeller.Text = r["SellerName"].ToString();
+                            }
+
+
+                            if (r["ClientID_Buyer"] != DBNull.Value)
+                            {
+                                cmbBuyer.SelectedValue = (int)r["ClientID_Buyer"];
+                            }
+                            else
+                            {
+                                cmbBuyer.SelectedValue = 0;
+                                cmbBuyer.Text = r["BuyerName"].ToString();
+                            }
+
+
+                            // Weight type
+                            //weightTypeID = SafeValue(r["weight_type"]);
+                            weightTypeID = SafeValue(r["weight_typeID"]);
+                            cmbWeightType.SelectedValue = (weightTypeID == "1") ? 2 : 1;
+
+
+                            LoadMaterials();
+
+                            // Material
+                            if (!string.IsNullOrEmpty(SafeValue(r["matrial_code"])))
+                            {
+                                cmbMaterial.DroppedDown = false;
+                                cmbMaterial.SelectedValue = SafeValue(r["matrial_code"]);
+                                cmbMaterial.DroppedDown = false;
+                            }
+
+                            // Counter
+                            if (!string.IsNullOrEmpty(SafeValue(r["CounterID"])))
+                            {
+                                cmbScale.SelectedValue = SafeValue(r["CounterID"]);
+                            }
+
+                            txtQty.Text = SafeValue(r["quantity"]);
+
+                            // Challan
+                            if (!string.IsNullOrEmpty(r["challan"]?.ToString()))
+                            {
+                                lblChallan.Visible = true;
+                                txtChallanNo.Visible = true;
+                                txtChallanNo.Text = r["challan"].ToString();
+                            }
+
+                            // Operator / Driver / Truck Info
+                            txtDriverName.Text = r["driver_name"]?.ToString();
+                            txtTruckNo.Text = r["truck_no"]?.ToString();
+
+                            // Weight values from database get priority. Live scale fills only missing values.
+                            string grossWeightFromDb = SafeValue(r["g_w_unite"]);
+                            string tareWeightFromDb = SafeValue(r["t_w_unite"]);
+                            hasGrossWeight = TryGetValidWeight(grossWeightFromDb, out gWeight);
+                            hasTareWeight = TryGetValidWeight(tareWeightFromDb, out tWeight);
+
+                            txtGrossWeight.Text = hasGrossWeight ? grossWeightFromDb : "";
+                            txtTareWeight.Text = hasTareWeight ? tareWeightFromDb : "";
+
+                            if (hasGrossWeight && hasTareWeight)
+                                status = 0;
+
+                            // Date/Time labels
+                            lblGrossWeightTime.Text = "Date and Time";
+                            gw_time = null;
+                            tw_time = null;
+                            if (r["g_w_time"] != DBNull.Value)
+                            {
+                                var dtGross = Convert.ToDateTime(r["g_w_time"]);
+                                lblGrossWeightTime.Text = dtGross.ToString("dd-MMM-yyyy  HH:mm tt");
+                                gw_time = dtGross;
+                            }
+
+                            lblTareWeightTime.Text = "Date and Time";
+                            if (r["t_w_time"] != DBNull.Value)
+                            {
+                                var dtTare = Convert.ToDateTime(r["t_w_time"]);
+                                lblTareWeightTime.Text = dtTare.ToString("dd-MMM-yyyy  HH:mm tt");
+                                tw_time = dtTare;
+                            }
+
+                            firstWeightType = SafeValue(r["weight_type"]);
+
+
+
+                            // Client table থেকে আবার name load করতে চাইলে (তোমার আগের logic)
+                            using (SqlCommand cmdClient = new SqlCommand(queryClient, conn))
+                            {
+                                cmdClient.Parameters.AddWithValue("@clintCode", cmbSeller.Text);
+                                SqlDataAdapter daClient = new SqlDataAdapter(cmdClient);
+                                DataTable dtClient = new DataTable();
+                                daClient.Fill(dtClient);
+
+                                if (dtClient.Rows.Count > 0)
+                                {
+                                    // NOTE: এখানে আসল কলাম নাম অনুযায়ী ঠিক করে নিতে হবে
+                                    // cmbSeller.SelectedValue = dtClient.Rows[0]["ClientID"]?.ToString();
+                                }
+                            }
+
+                            if (firstWeightType == "IN WEIGHT")
+                            {
+                                WeightType("IN");
+                                cmbWeightType.SelectedValue = 1;
+                            }
+
+                            if (firstWeightType == "OUT WEIGHT")
+                            {
+                                WeightType("OUT");
+                                cmbWeightType.SelectedValue = 2;
                             }
                         }
-
-                        if (firstWeightType == "IN WEIGHT")
+                        finally
                         {
-                            WeightType("IN");
-                        }
-
-                        if (firstWeightType == "OUT WEIGHT")
-                        {
-                            WeightType("OUT");
+                            _isLoadingWeightInformation = false;
+                            BeginInvoke(new Action(() => cmbMaterial.DroppedDown = false));
                         }
 
                         // Live scale weight update (optional)
@@ -707,9 +880,9 @@ namespace BridgeScaleDotNet
                         {
                             if (status == 1 || status == 2)
                             {
-                                if (cmbWeightType.Text == "IN WEIGHT")
+                                if (cmbWeightType.Text == "IN WEIGHT" && !hasTareWeight)
                                     txtTareWeight.Text = txtScaleWeight.Text;
-                                else
+                                else if (cmbWeightType.Text != "IN WEIGHT" && !hasGrossWeight)
                                     txtGrossWeight.Text = txtScaleWeight.Text;
                             }
                         }
@@ -912,6 +1085,11 @@ namespace BridgeScaleDotNet
         public string SafeValue(object val)
         {
             return val == DBNull.Value ? "0" : val.ToString();
+        }
+
+        private bool TryGetValidWeight(string value, out double weight)
+        {
+            return double.TryParse(value, out weight) && weight != 0;
         }
 
         private void InsertScaleInformation(int weightId, string bsName, string bSNameWithID, int counterID, string sellerName, string buyerName)
@@ -1301,6 +1479,7 @@ namespace BridgeScaleDotNet
         private void cmbWeightID_TextUpdate(object sender, EventArgs e)
         {
             if (_isFilteringWeight) return;
+            if (_allWeightData == null) return;
 
             try
             {
@@ -1359,7 +1538,9 @@ namespace BridgeScaleDotNet
 
         private void cmbMaterial_TextUpdate(object sender, EventArgs e)
         {
+            if (_isLoadingWeightInformation) return;
             if (_isFilteringMaterial) return;
+            if (_allMaterialData == null) return;
 
             try
             {

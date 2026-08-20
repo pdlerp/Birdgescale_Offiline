@@ -152,9 +152,9 @@
             this.panel1.Controls.Add(this.cmbSeller);
             this.panel1.Controls.Add(this.cmbWeightType);
             this.panel1.Controls.Add(this.cmbWeightID);
-            this.panel1.Location = new System.Drawing.Point(40, 146);
+            this.panel1.Location = new System.Drawing.Point(40, 93);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1317, 680);
+            this.panel1.Size = new System.Drawing.Size(1317, 654);
             this.panel1.TabIndex = 3;
             // 
             // lblSyncStatus
@@ -162,7 +162,7 @@
             this.lblSyncStatus.AutoSize = true;
             this.lblSyncStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSyncStatus.ForeColor = System.Drawing.Color.Purple;
-            this.lblSyncStatus.Location = new System.Drawing.Point(1121, 552);
+            this.lblSyncStatus.Location = new System.Drawing.Point(48, 564);
             this.lblSyncStatus.Name = "lblSyncStatus";
             this.lblSyncStatus.Size = new System.Drawing.Size(188, 16);
             this.lblSyncStatus.TabIndex = 31;
@@ -174,13 +174,14 @@
             this.textMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textMessage.ForeColor = System.Drawing.Color.Coral;
-            this.textMessage.Location = new System.Drawing.Point(302, 585);
+            this.textMessage.Location = new System.Drawing.Point(8, 592);
             this.textMessage.Multiline = true;
             this.textMessage.Name = "textMessage";
             this.textMessage.ReadOnly = true;
-            this.textMessage.Size = new System.Drawing.Size(1004, 90);
+            this.textMessage.Size = new System.Drawing.Size(1300, 55);
             this.textMessage.TabIndex = 30;
             this.textMessage.Text = "Sync Pending";
+            this.textMessage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnSync
             // 
@@ -318,7 +319,7 @@
             // hiddenWeightIDReport
             // 
             this.hiddenWeightIDReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.hiddenWeightIDReport.Location = new System.Drawing.Point(18, 582);
+            this.hiddenWeightIDReport.Location = new System.Drawing.Point(7, 545);
             this.hiddenWeightIDReport.Name = "hiddenWeightIDReport";
             this.hiddenWeightIDReport.Size = new System.Drawing.Size(192, 24);
             this.hiddenWeightIDReport.TabIndex = 5;
@@ -329,7 +330,7 @@
             // txtHiddenWeightID
             // 
             this.txtHiddenWeightID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHiddenWeightID.Location = new System.Drawing.Point(18, 558);
+            this.txtHiddenWeightID.Location = new System.Drawing.Point(7, 521);
             this.txtHiddenWeightID.Name = "txtHiddenWeightID";
             this.txtHiddenWeightID.Size = new System.Drawing.Size(214, 24);
             this.txtHiddenWeightID.TabIndex = 5;
@@ -478,22 +479,22 @@
             // txtGrossWeight
             // 
             this.txtGrossWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGrossWeight.Location = new System.Drawing.Point(179, 411);
+            this.txtGrossWeight.Location = new System.Drawing.Point(203, 411);
             this.txtGrossWeight.Multiline = true;
             this.txtGrossWeight.Name = "txtGrossWeight";
             this.txtGrossWeight.ReadOnly = true;
-            this.txtGrossWeight.Size = new System.Drawing.Size(329, 34);
+            this.txtGrossWeight.Size = new System.Drawing.Size(305, 34);
             this.txtGrossWeight.TabIndex = 0;
             this.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtTareWeight
             // 
             this.txtTareWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTareWeight.Location = new System.Drawing.Point(179, 453);
+            this.txtTareWeight.Location = new System.Drawing.Point(203, 453);
             this.txtTareWeight.Multiline = true;
             this.txtTareWeight.Name = "txtTareWeight";
             this.txtTareWeight.ReadOnly = true;
-            this.txtTareWeight.Size = new System.Drawing.Size(329, 34);
+            this.txtTareWeight.Size = new System.Drawing.Size(305, 34);
             this.txtTareWeight.TabIndex = 0;
             this.txtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -694,7 +695,7 @@
             this.txtScaleWeight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.txtScaleWeight.Font = new System.Drawing.Font("Times New Roman", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtScaleWeight.ForeColor = System.Drawing.Color.White;
-            this.txtScaleWeight.Location = new System.Drawing.Point(761, 12);
+            this.txtScaleWeight.Location = new System.Drawing.Point(769, 12);
             this.txtScaleWeight.Name = "txtScaleWeight";
             this.txtScaleWeight.Size = new System.Drawing.Size(494, 75);
             this.txtScaleWeight.TabIndex = 9;
@@ -709,7 +710,7 @@
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(1268, 12);
+            this.btnRefresh.Location = new System.Drawing.Point(1281, 12);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 75);
             this.btnRefresh.TabIndex = 9;
@@ -719,7 +720,7 @@
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(-4, 28);
+            this.label7.Location = new System.Drawing.Point(12, 28);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(158, 24);
             this.label7.TabIndex = 10;
@@ -730,7 +731,7 @@
             // label17
             // 
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(-4, 52);
+            this.label17.Location = new System.Drawing.Point(12, 52);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(158, 24);
             this.label17.TabIndex = 11;
@@ -741,7 +742,7 @@
             // 
             this.cmbScale.FormattingEnabled = true;
             this.cmbScale.ItemHeight = 16;
-            this.cmbScale.Location = new System.Drawing.Point(149, 57);
+            this.cmbScale.Location = new System.Drawing.Point(165, 57);
             this.cmbScale.Name = "cmbScale";
             this.cmbScale.Size = new System.Drawing.Size(329, 24);
             this.cmbScale.TabIndex = 1;
@@ -751,7 +752,7 @@
             // txtOperatorName
             // 
             this.txtOperatorName.Enabled = false;
-            this.txtOperatorName.Location = new System.Drawing.Point(149, 29);
+            this.txtOperatorName.Location = new System.Drawing.Point(165, 29);
             this.txtOperatorName.Name = "txtOperatorName";
             this.txtOperatorName.ReadOnly = true;
             this.txtOperatorName.Size = new System.Drawing.Size(329, 22);
@@ -762,7 +763,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(1399, 838);
+            this.ClientSize = new System.Drawing.Size(1399, 753);
             this.Controls.Add(this.txtOperatorName);
             this.Controls.Add(this.cmbScale);
             this.Controls.Add(this.label17);
