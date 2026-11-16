@@ -15,7 +15,8 @@ namespace BridgeScaleDotNet
     public static class DbContext
     {
 
-        //static string  connString = "Server=10.200.111.30;Database=BTLERP;User Id=sa;Password=pdLe@!p~~~23&&eb23;";
+        static string connStringWebServer = "Server=10.200.111.30;Database=BTLERP;User Id=sa;Password=eRp@!p#$#23&&eb26;";
+        
         public static readonly string connString =
            $@"Server=(localdb)\MSSQLLocalDB;AttachDbFilename=D:\Data\BS4.mdf;Integrated Security=True;Connect Timeout=30;";
 
@@ -24,6 +25,11 @@ namespace BridgeScaleDotNet
         public static SqlConnection GetConn()
         {
             return new SqlConnection(connString);
+        }
+
+        public static SqlConnection GetConnWebServer()
+        {
+            return new SqlConnection(connStringWebServer);
         }
 
         public static DataTable Execute(string query)
@@ -49,6 +55,18 @@ namespace BridgeScaleDotNet
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static DataTable ExecuteWebServer(string query)
+        {
+            using (SqlConnection conn = GetConnWebServer())
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+            {
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
             }
         }
     }

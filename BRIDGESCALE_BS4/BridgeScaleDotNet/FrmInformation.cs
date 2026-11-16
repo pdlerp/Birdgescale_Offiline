@@ -202,7 +202,7 @@ namespace BridgeScaleDotNet
             foreach (var textBox in new[]
             {
                 txtOperatorName, txtQty, txtDriverName, txtTruckNo, txtChallanNo,
-                txtSellerCode, txtSellerAddress, txtBuyerCode, txtBuyerAddress
+                txtSellerName, txtSellerAddress, txtBuyerName, txtBuyerAddress
             })
             {
                 textBox.Font = new Font("Segoe UI", 10F);
@@ -898,8 +898,12 @@ namespace BridgeScaleDotNet
 
             string bsName = cmbScale.Text;
             string bSNameWithID = cmbWeightID.Text;
-            string sellerName = cmbSeller.Text;
-            string buyerName = cmbBuyer.Text;
+
+            //string sellerName = cmbSeller.Text;
+            //string buyerName = cmbBuyer.Text;
+
+            string sellerName = txtSellerName.Text;
+            string buyerName = txtBuyerName.Text;
 
             int counterID = (int)cmbScale.SelectedValue;
 
@@ -1098,11 +1102,11 @@ namespace BridgeScaleDotNet
                 INSERT INTO Scale_Information
                 (CounterID, BSNameWithID, BSName, date_c, weight_id, weight_type, quantity,
                  operator_name, driver_name, truck_no, challan, ClientID_Seller,
-                 ClientID_Buyer, status, g_w_time, t_w_time, matrial_code, g_w_unite, t_w_unite, TransferFrom, TransferTo, SellerName, BuyerName)
+                 ClientID_Buyer, status, g_w_time, t_w_time, matrial_code, matrial_name, g_w_unite, t_w_unite, TransferFrom, TransferTo, SellerName, BuyerName)
                 VALUES
                 (@CounterID, @BSNameWithID, @BSName, @date_c, @weight_id, @weight_type, @quantity,
                  @operator_name, @driver_name, @truck_no, @challan, @ClientID_Seller,
-                 @ClientID_Buyer, @status, @g_w_time, @t_w_time, @matrial_code, @g_w_unite, @t_w_unite, @TransferFrom, @TransferTo, @SellerName, @BuyerName)";
+                 @ClientID_Buyer, @status, @g_w_time, @t_w_time, @matrial_code, @matrial_name, @g_w_unite, @t_w_unite, @TransferFrom, @TransferTo, @SellerName, @BuyerName)";
 
             DbContext.Exec(sql, BuildParameters(weightId, bsName, bSNameWithID, counterID));
         }
@@ -1115,6 +1119,7 @@ namespace BridgeScaleDotNet
                     weight_typeID    = @weight_typeID,
                     weight_type      = @weight_type,
                     matrial_code     = @matrial_code,
+                    matrial_name     = @matrial_name,
                     quantity         = @quantity,
                     operator_name    = @operator_name,
                     driver_name      = @driver_name,
@@ -1170,6 +1175,7 @@ namespace BridgeScaleDotNet
                 { "@weight_typeID", cmbWeightType.SelectedValue },
                 { "@weight_type", cmbWeightType.Text },
                 { "@matrial_code", cmbMaterial.SelectedValue },
+                { "@matrial_name", cmbMaterial.Text },
                 { "@quantity", txtQty.Text },
                 { "@operator_name", operatorName },
                 { "@driver_name", txtDriverName.Text },
@@ -1184,8 +1190,8 @@ namespace BridgeScaleDotNet
                 { "@t_w_time", tw_time },
                 { "@TransferFrom",  cmbTransferFrom.SelectedValue },
                 { "@TransferTo", cmbTransferTo.SelectedValue },
-                { "@BuyerName", cmbBuyer.Text },
-                { "@SellerName", cmbSeller.Text },
+                { "@BuyerName", txtBuyerName.Text },
+                { "@SellerName", txtSellerName.Text },
                 { "@IsSyncDataToServer", 0 },
             };
         }
@@ -1327,7 +1333,7 @@ namespace BridgeScaleDotNet
                 dt = DbContext.Execute(query);
                 if (dt != null && dt.Rows.Count > 0)
                 {
-                    txtSellerCode.Text = dt.Rows[0]["Clint_code"] == DBNull.Value
+                    txtSellerName.Text = dt.Rows[0]["Clint_code"] == DBNull.Value
                         ? ""
                         : dt.Rows[0]["Clint_code"].ToString();
 
@@ -1337,7 +1343,7 @@ namespace BridgeScaleDotNet
                 }
                 else
                 {
-                    txtSellerCode.Text = "";
+                    txtSellerName.Text = "";
                     txtSellerAddress.Text = "";
                 }
             }
@@ -1358,24 +1364,24 @@ namespace BridgeScaleDotNet
                     {
                         DataRow row = dt.Rows[0];
 
-                        txtBuyerCode.Text = Convert.ToString(row["Clint_code"]);
+                        txtBuyerName.Text = Convert.ToString(row["Clint_code"]);
                         txtBuyerAddress.Text = Convert.ToString(row["Address"]);
                     }
                     else
                     {
-                        txtBuyerCode.Text = string.Empty;
+                        txtBuyerName.Text = string.Empty;
                         txtBuyerAddress.Text = string.Empty;
                     }
                 }
                 else
                 {
-                    txtBuyerCode.Text = string.Empty;
+                    txtBuyerName.Text = string.Empty;
                     txtBuyerAddress.Text = string.Empty;
                 }
             }
             else
             {
-                txtBuyerCode.Text = string.Empty;
+                txtBuyerName.Text = string.Empty;
                 txtBuyerAddress.Text = string.Empty;
             }
         }
@@ -1705,6 +1711,7 @@ namespace BridgeScaleDotNet
         public string Status { get; set; }
         public string Challan { get; set; }
         public string matrial_code { get; set; }
+        public string matrial_name { get; set; }
         public string truck_no { get; set; }
         public string Quantity { get; set; }
         public string g_w_unite { get; set; }

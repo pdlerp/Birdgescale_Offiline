@@ -33,6 +33,7 @@
             this.btnNewWeight = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.textMessage1 = new System.Windows.Forms.TextBox();
+            this.btnMaterialAdd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnWeightReport
@@ -93,7 +94,7 @@
             this.textMessage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textMessage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textMessage1.ForeColor = System.Drawing.Color.MediumOrchid;
-            this.textMessage1.Location = new System.Drawing.Point(215, 359);
+            this.textMessage1.Location = new System.Drawing.Point(215, 423);
             this.textMessage1.Multiline = true;
             this.textMessage1.Name = "textMessage1";
             this.textMessage1.ReadOnly = true;
@@ -101,6 +102,19 @@
             this.textMessage1.TabIndex = 31;
             this.textMessage1.Text = "Data sync every 5 minutes";
             this.textMessage1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnMaterialAdd
+            // 
+            this.btnMaterialAdd.BackColor = System.Drawing.Color.Teal;
+            this.btnMaterialAdd.Font = new System.Drawing.Font("Microsoft YaHei UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMaterialAdd.ForeColor = System.Drawing.Color.White;
+            this.btnMaterialAdd.Location = new System.Drawing.Point(215, 359);
+            this.btnMaterialAdd.Name = "btnMaterialAdd";
+            this.btnMaterialAdd.Size = new System.Drawing.Size(566, 54);
+            this.btnMaterialAdd.TabIndex = 32;
+            this.btnMaterialAdd.Text = "MATERIAL ADD";
+            this.btnMaterialAdd.UseVisualStyleBackColor = false;
+            this.btnMaterialAdd.Click += new System.EventHandler(this.btnMaterialAdd_Click);
             // 
             // FrmMain
             // 
@@ -110,6 +124,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1001, 495);
             this.ControlBox = false;
+            this.Controls.Add(this.btnMaterialAdd);
             this.Controls.Add(this.textMessage1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnNewWeight);
@@ -133,5 +148,6 @@
         private System.Windows.Forms.Button btnNewWeight;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.TextBox textMessage1;
+        private System.Windows.Forms.Button btnMaterialAdd;
     }
 }

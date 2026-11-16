@@ -218,7 +218,7 @@
             // 
             // TopMargin
             // 
-            this.TopMargin.HeightF = 12.5F;
+            this.TopMargin.HeightF = 53.33333F;
             this.TopMargin.Name = "TopMargin";
             // 
             // BottomMargin
@@ -1941,7 +1941,7 @@
             this.DataMember = "Query";
             this.DataSource = this.sqlDataSource1;
             this.Font = new DevExpress.Drawing.DXFont("Arial", 9.75F);
-            this.Margins = new DevExpress.Drawing.DXMargins(32F, 30F, 12.5F, 0F);
+            this.Margins = new DevExpress.Drawing.DXMargins(32F, 30F, 53.33333F, 0F);
             this.ParameterPanelLayoutItems.AddRange(new DevExpress.XtraReports.Parameters.ParameterPanelLayoutItem[] {
             new DevExpress.XtraReports.Parameters.ParameterLayoutItem(this.InformationID, DevExpress.XtraReports.Parameters.Orientation.Horizontal)});
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {

@@ -57,8 +57,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtSellerCode = new System.Windows.Forms.TextBox();
-            this.txtBuyerCode = new System.Windows.Forms.TextBox();
+            this.txtSellerName = new System.Windows.Forms.TextBox();
+            this.txtBuyerName = new System.Windows.Forms.TextBox();
             this.txtGrossWeight = new System.Windows.Forms.TextBox();
             this.txtTareWeight = new System.Windows.Forms.TextBox();
             this.txtChallanNo = new System.Windows.Forms.TextBox();
@@ -128,8 +128,8 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.txtSellerCode);
-            this.panel1.Controls.Add(this.txtBuyerCode);
+            this.panel1.Controls.Add(this.txtSellerName);
+            this.panel1.Controls.Add(this.txtBuyerName);
             this.panel1.Controls.Add(this.txtGrossWeight);
             this.panel1.Controls.Add(this.txtTareWeight);
             this.panel1.Controls.Add(this.txtChallanNo);
@@ -207,6 +207,7 @@
             this.btnBuyer.TabIndex = 28;
             this.btnBuyer.Text = "+";
             this.btnBuyer.UseVisualStyleBackColor = false;
+            this.btnBuyer.Visible = false;
             this.btnBuyer.Click += new System.EventHandler(this.btnBuyer_Click);
             // 
             // btnSeller
@@ -220,6 +221,7 @@
             this.btnSeller.TabIndex = 27;
             this.btnSeller.Text = "+";
             this.btnSeller.UseVisualStyleBackColor = false;
+            this.btnSeller.Visible = false;
             this.btnSeller.Click += new System.EventHandler(this.btnSeller_Click);
             // 
             // transferPanel
@@ -377,7 +379,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(243, 24);
             this.label12.TabIndex = 4;
-            this.label12.Text = "Buyer Code. :";
+            this.label12.Text = "Buyer Name :";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTareWeightTime
@@ -445,7 +447,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(243, 24);
             this.label11.TabIndex = 4;
-            this.label11.Text = "Buyer Name :";
+            this.label11.Text = "Buyer :";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
@@ -458,23 +460,21 @@
             this.label5.Text = "Driver Name :";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtSellerCode
+            // txtSellerName
             // 
-            this.txtSellerCode.Location = new System.Drawing.Point(945, 58);
-            this.txtSellerCode.Multiline = true;
-            this.txtSellerCode.Name = "txtSellerCode";
-            this.txtSellerCode.ReadOnly = true;
-            this.txtSellerCode.Size = new System.Drawing.Size(329, 34);
-            this.txtSellerCode.TabIndex = 20;
+            this.txtSellerName.Location = new System.Drawing.Point(945, 58);
+            this.txtSellerName.Multiline = true;
+            this.txtSellerName.Name = "txtSellerName";
+            this.txtSellerName.Size = new System.Drawing.Size(329, 34);
+            this.txtSellerName.TabIndex = 20;
             // 
-            // txtBuyerCode
+            // txtBuyerName
             // 
-            this.txtBuyerCode.Location = new System.Drawing.Point(945, 208);
-            this.txtBuyerCode.Multiline = true;
-            this.txtBuyerCode.Name = "txtBuyerCode";
-            this.txtBuyerCode.ReadOnly = true;
-            this.txtBuyerCode.Size = new System.Drawing.Size(329, 34);
-            this.txtBuyerCode.TabIndex = 20;
+            this.txtBuyerName.Location = new System.Drawing.Point(945, 208);
+            this.txtBuyerName.Multiline = true;
+            this.txtBuyerName.Name = "txtBuyerName";
+            this.txtBuyerName.Size = new System.Drawing.Size(329, 34);
+            this.txtBuyerName.TabIndex = 20;
             // 
             // txtGrossWeight
             // 
@@ -542,7 +542,7 @@
             // label10
             // 
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(696, 104);
+            this.label10.Location = new System.Drawing.Point(705, 113);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(243, 24);
             this.label10.TabIndex = 4;
@@ -566,7 +566,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(243, 24);
             this.label9.TabIndex = 4;
-            this.label9.Text = "Seller Code :";
+            this.label9.Text = "Seller Name :";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
@@ -586,7 +586,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(243, 24);
             this.label8.TabIndex = 4;
-            this.label8.Text = "Seller Name :";
+            this.label8.Text = "Seller :";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
@@ -653,6 +653,7 @@
             // cmbBuyer
             // 
             this.cmbBuyer.AccessibleRole = System.Windows.Forms.AccessibleRole.Application;
+            this.cmbBuyer.Enabled = false;
             this.cmbBuyer.FormattingEnabled = true;
             this.cmbBuyer.Location = new System.Drawing.Point(947, 169);
             this.cmbBuyer.Name = "cmbBuyer";
@@ -663,6 +664,7 @@
             // cmbSeller
             // 
             this.cmbSeller.AccessibleRole = System.Windows.Forms.AccessibleRole.Application;
+            this.cmbSeller.Enabled = false;
             this.cmbSeller.FormattingEnabled = true;
             this.cmbSeller.Location = new System.Drawing.Point(945, 13);
             this.cmbSeller.Name = "cmbSeller";
@@ -801,7 +803,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtBuyerCode;
+        private System.Windows.Forms.TextBox txtBuyerName;
         private System.Windows.Forms.TextBox txtSellerAddress;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -821,7 +823,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label21;
         public System.Windows.Forms.ComboBox cmbBuyer;
-        private System.Windows.Forms.TextBox txtSellerCode;
+        private System.Windows.Forms.TextBox txtSellerName;
         private System.Windows.Forms.TextBox txtChallanNo;
         private System.Windows.Forms.Label txtHiddenWeightID;
         private System.Windows.Forms.Button btnReport;

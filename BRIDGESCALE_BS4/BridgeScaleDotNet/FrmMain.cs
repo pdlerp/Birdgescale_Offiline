@@ -122,6 +122,14 @@ namespace BridgeScaleDotNet
             this.Hide();
         }
 
+        // 1st Weight
+        private void btnMaterialAdd_Click(object sender, EventArgs e)
+        {
+            FrmMaterial frmMaterial = new FrmMaterial();
+            frmMaterial.Show();
+            this.Hide();
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
