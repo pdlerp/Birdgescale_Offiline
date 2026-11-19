@@ -100,6 +100,12 @@ namespace BridgeScaleDotNet
             string counterID = cmbScale.SelectedValue.ToString();
             string sql = string.Empty;
 
+            if (string.Equals(username, "User Name", StringComparison.OrdinalIgnoreCase))
+                username = string.Empty;
+
+            if (string.Equals(password, "Password", StringComparison.OrdinalIgnoreCase))
+                password = string.Empty;
+
             LocalStorage.UserName = username;
             LocalStorage.Password = password;
 
@@ -209,6 +215,44 @@ namespace BridgeScaleDotNet
             {
                 btnLogin.PerformClick(); // trigger login button
                 e.SuppressKeyPress = true; // stop beep sound
+            }
+        }
+
+        private void txtUserName_Enter(object sender, EventArgs e)
+        {
+            if (txtUserName.Text == "User Name")
+            {
+                txtUserName.Clear();
+                txtUserName.ForeColor = Color.FromArgb(30, 41, 59);
+            }
+        }
+
+        private void txtUserName_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtUserName.Text))
+            {
+                txtUserName.Text = "User Name";
+                txtUserName.ForeColor = Color.FromArgb(100, 116, 139);
+            }
+        }
+
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            if (txtPassword.Text == "Password")
+            {
+                txtPassword.Clear();
+                txtPassword.PasswordChar = '*';
+                txtPassword.ForeColor = Color.FromArgb(30, 41, 59);
+            }
+        }
+
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                txtPassword.PasswordChar = '\0';
+                txtPassword.Text = "Password";
+                txtPassword.ForeColor = Color.FromArgb(100, 116, 139);
             }
         }
 

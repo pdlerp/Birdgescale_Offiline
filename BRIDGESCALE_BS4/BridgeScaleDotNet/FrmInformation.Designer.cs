@@ -30,6 +30,7 @@
         {
             this.cmbWeightID = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnMaterial = new System.Windows.Forms.Button();
             this.lblSyncStatus = new System.Windows.Forms.Label();
             this.textMessage = new System.Windows.Forms.TextBox();
             this.btnSync = new System.Windows.Forms.Button();
@@ -82,11 +83,11 @@
             this.cmbWeightType = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtScaleWeight = new System.Windows.Forms.Label();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.cmbScale = new System.Windows.Forms.ComboBox();
             this.txtOperatorName = new System.Windows.Forms.TextBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.transferPanel.SuspendLayout();
             this.SuspendLayout();
@@ -98,13 +99,14 @@
             this.cmbWeightID.Location = new System.Drawing.Point(244, 15);
             this.cmbWeightID.Name = "cmbWeightID";
             this.cmbWeightID.Size = new System.Drawing.Size(329, 24);
-            this.cmbWeightID.TabIndex = 2;
+            this.cmbWeightID.TabIndex = 1;
             this.cmbWeightID.TextUpdate += new System.EventHandler(this.cmbWeightID_TextUpdate);
             this.cmbWeightID.SelectedValueChanged += new System.EventHandler(this.cmbWeightID_SelectedValueChanged);
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnMaterial);
             this.panel1.Controls.Add(this.lblSyncStatus);
             this.panel1.Controls.Add(this.textMessage);
             this.panel1.Controls.Add(this.btnSync);
@@ -154,15 +156,31 @@
             this.panel1.Controls.Add(this.cmbWeightID);
             this.panel1.Location = new System.Drawing.Point(40, 93);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1317, 654);
+            this.panel1.Size = new System.Drawing.Size(1317, 682);
             this.panel1.TabIndex = 3;
+            // 
+            // btnMaterial
+            // 
+            this.btnMaterial.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnMaterial.FlatAppearance.BorderSize = 0;
+            this.btnMaterial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMaterial.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMaterial.ForeColor = System.Drawing.Color.White;
+            this.btnMaterial.Location = new System.Drawing.Point(581, 103);
+            this.btnMaterial.Name = "btnMaterial";
+            this.btnMaterial.Size = new System.Drawing.Size(35, 24);
+            this.btnMaterial.TabIndex = 32;
+            this.btnMaterial.Text = "+";
+            this.btnMaterial.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMaterial.UseVisualStyleBackColor = false;
+            this.btnMaterial.Click += new System.EventHandler(this.btnMaterial_Click);
             // 
             // lblSyncStatus
             // 
             this.lblSyncStatus.AutoSize = true;
             this.lblSyncStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSyncStatus.ForeColor = System.Drawing.Color.Purple;
-            this.lblSyncStatus.Location = new System.Drawing.Point(48, 564);
+            this.lblSyncStatus.Location = new System.Drawing.Point(14, 571);
             this.lblSyncStatus.Name = "lblSyncStatus";
             this.lblSyncStatus.Size = new System.Drawing.Size(188, 16);
             this.lblSyncStatus.TabIndex = 31;
@@ -199,29 +217,31 @@
             // btnBuyer
             // 
             this.btnBuyer.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnBuyer.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuyer.FlatAppearance.BorderSize = 0;
+            this.btnBuyer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuyer.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuyer.ForeColor = System.Drawing.Color.White;
-            this.btnBuyer.Location = new System.Drawing.Point(1276, 160);
+            this.btnBuyer.Location = new System.Drawing.Point(1279, 169);
             this.btnBuyer.Name = "btnBuyer";
-            this.btnBuyer.Size = new System.Drawing.Size(40, 40);
+            this.btnBuyer.Size = new System.Drawing.Size(28, 24);
             this.btnBuyer.TabIndex = 28;
             this.btnBuyer.Text = "+";
             this.btnBuyer.UseVisualStyleBackColor = false;
-            this.btnBuyer.Visible = false;
             this.btnBuyer.Click += new System.EventHandler(this.btnBuyer_Click);
             // 
             // btnSeller
             // 
             this.btnSeller.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnSeller.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSeller.FlatAppearance.BorderSize = 0;
+            this.btnSeller.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSeller.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeller.ForeColor = System.Drawing.Color.White;
-            this.btnSeller.Location = new System.Drawing.Point(1276, 8);
+            this.btnSeller.Location = new System.Drawing.Point(1278, 13);
             this.btnSeller.Name = "btnSeller";
-            this.btnSeller.Size = new System.Drawing.Size(40, 38);
+            this.btnSeller.Size = new System.Drawing.Size(28, 24);
             this.btnSeller.TabIndex = 27;
             this.btnSeller.Text = "+";
             this.btnSeller.UseVisualStyleBackColor = false;
-            this.btnSeller.Visible = false;
             this.btnSeller.Click += new System.EventHandler(this.btnSeller_Click);
             // 
             // transferPanel
@@ -484,7 +504,7 @@
             this.txtGrossWeight.Name = "txtGrossWeight";
             this.txtGrossWeight.ReadOnly = true;
             this.txtGrossWeight.Size = new System.Drawing.Size(305, 34);
-            this.txtGrossWeight.TabIndex = 0;
+            this.txtGrossWeight.TabIndex = 31;
             this.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtTareWeight
@@ -495,7 +515,7 @@
             this.txtTareWeight.Name = "txtTareWeight";
             this.txtTareWeight.ReadOnly = true;
             this.txtTareWeight.Size = new System.Drawing.Size(305, 34);
-            this.txtTareWeight.TabIndex = 0;
+            this.txtTareWeight.TabIndex = 31;
             this.txtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtChallanNo
@@ -653,7 +673,6 @@
             // cmbBuyer
             // 
             this.cmbBuyer.AccessibleRole = System.Windows.Forms.AccessibleRole.Application;
-            this.cmbBuyer.Enabled = false;
             this.cmbBuyer.FormattingEnabled = true;
             this.cmbBuyer.Location = new System.Drawing.Point(947, 169);
             this.cmbBuyer.Name = "cmbBuyer";
@@ -664,7 +683,6 @@
             // cmbSeller
             // 
             this.cmbSeller.AccessibleRole = System.Windows.Forms.AccessibleRole.Application;
-            this.cmbSeller.Enabled = false;
             this.cmbSeller.FormattingEnabled = true;
             this.cmbSeller.Location = new System.Drawing.Point(945, 13);
             this.cmbSeller.Name = "cmbSeller";
@@ -704,21 +722,6 @@
             this.txtScaleWeight.Text = "1200";
             this.txtScaleWeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnRefresh
-            // 
-            this.btnRefresh.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.btnRefresh.BackgroundImage = global::BridgeScaleDotNet.Properties.Resources.refresh;
-            this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(1281, 12);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 75);
-            this.btnRefresh.TabIndex = 9;
-            this.btnRefresh.UseVisualStyleBackColor = false;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -747,7 +750,7 @@
             this.cmbScale.Location = new System.Drawing.Point(165, 57);
             this.cmbScale.Name = "cmbScale";
             this.cmbScale.Size = new System.Drawing.Size(329, 24);
-            this.cmbScale.TabIndex = 1;
+            this.cmbScale.TabIndex = 30;
             this.cmbScale.SelectedIndexChanged += new System.EventHandler(this.cmbScale_SelectedIndexChanged);
             this.cmbScale.SelectedValueChanged += new System.EventHandler(this.cmbScale_SelectedValueChanged);
             // 
@@ -760,12 +763,27 @@
             this.txtOperatorName.Size = new System.Drawing.Size(329, 22);
             this.txtOperatorName.TabIndex = 0;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnRefresh.BackgroundImage = global::BridgeScaleDotNet.Properties.Resources.refresh;
+            this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.ForeColor = System.Drawing.Color.White;
+            this.btnRefresh.Location = new System.Drawing.Point(1281, 12);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 75);
+            this.btnRefresh.TabIndex = 9;
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // FrmInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(1399, 753);
+            this.ClientSize = new System.Drawing.Size(1399, 826);
             this.Controls.Add(this.txtOperatorName);
             this.Controls.Add(this.cmbScale);
             this.Controls.Add(this.label17);
@@ -845,5 +863,6 @@
         private System.Windows.Forms.Button btnSync;
         private System.Windows.Forms.TextBox textMessage;
         private System.Windows.Forms.Label lblSyncStatus;
+        private System.Windows.Forms.Button btnMaterial;
     }
 }

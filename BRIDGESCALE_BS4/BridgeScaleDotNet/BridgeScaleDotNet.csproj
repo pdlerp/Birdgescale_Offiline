@@ -284,6 +284,18 @@
     <Compile Include="FrmMaterial.Designer.cs">
       <DependentUpon>FrmMaterial.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSupplier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSupplier.Designer.cs">
+      <DependentUpon>FrmSupplier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmBuyer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBuyer.Designer.cs">
+      <DependentUpon>FrmBuyer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmInformation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -333,6 +345,12 @@
     <EmbeddedResource Include="FrmMaterial.resx">
       <DependentUpon>FrmMaterial.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmSupplier.resx">
+      <DependentUpon>FrmSupplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBuyer.resx">
+      <DependentUpon>FrmBuyer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmInformation.resx">
       <DependentUpon>FrmInformation.cs</DependentUpon>
     </EmbeddedResource>
@@ -380,6 +398,8 @@
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="images\user.png" />
@@ -404,6 +424,7 @@
     <Content Include="Data\BS4.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\btlpng.png" />
     <Content Include="rating.ico" />
   </ItemGroup>
   <ItemGroup>

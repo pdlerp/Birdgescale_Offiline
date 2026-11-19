@@ -1,13 +1,13 @@
 using BridgeScaleDotNet.Models;
 using BridgeScaleDotNet.Services;
-using DevExpress.Xpo.DB.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
-using System.Windows.Media.Media3D;
 
 namespace BridgeScaleDotNet
 {
@@ -18,6 +18,9 @@ namespace BridgeScaleDotNet
         private bool _isSaving;
         string globalMessge = string.Empty;
         DataTable materials;
+        private DataTable _allMaterials;
+
+        public int? SavedMaterialId { get; private set; }
 
         public FrmMaterial()
         {
@@ -37,11 +40,15 @@ namespace BridgeScaleDotNet
 
             try
             {
-                materials = DbContext.Execute(query);
+                materials = DbContext.Execute(query) ?? new DataTable();
+                _allMaterials = materials.Copy();
                 dgvMaterials.DataSource = null;
                 ConfigureGrid();
-                dgvMaterials.DataSource = materials;
-                txtMaterialCode.Text = materials.Rows[0]["NextMaterialCode"].ToString();
+                dgvMaterials.DataSource = _allMaterials;
+                txtMaterialCode.Text = materials.Rows.Count > 0
+                    ? materials.Rows[0]["NextMaterialCode"].ToString()
+                    : string.Empty;
+                UpdateTotalLabel();
             }
             catch (Exception ex)
             {
@@ -55,6 +62,14 @@ namespace BridgeScaleDotNet
             dgvMaterials.AutoGenerateColumns = false;
             dgvMaterials.Columns.Clear();
 
+            dgvMaterials.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "SL",
+                HeaderText = "SL",
+                Width = 58,
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            });
+
             DataGridViewTextBoxColumn materialIdColumn = new DataGridViewTextBoxColumn
             {
                 Name = "MaterialID",
@@ -67,7 +82,8 @@ namespace BridgeScaleDotNet
                 Name = "Matrial_code",
                 DataPropertyName = "Matrial_code",
                 HeaderText = "Material Code",
-                Width = 180
+                Width = 210,
+                Visible = false
             };
 
             DataGridViewTextBoxColumn descriptionColumn = new DataGridViewTextBoxColumn
@@ -83,7 +99,7 @@ namespace BridgeScaleDotNet
                 Name = "EntryDate",
                 DataPropertyName = "EntryDate",
                 HeaderText = "Created",
-                Width = 165,
+                Width = 155,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Format = "dd-MMM-yyyy HH:mm"
@@ -95,7 +111,7 @@ namespace BridgeScaleDotNet
                 Name = "EditDate",
                 DataPropertyName = "EditDate",
                 HeaderText = "Updated",
-                Width = 165,
+                Width = 155,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Format = "dd-MMM-yyyy HH:mm"
@@ -113,10 +129,10 @@ namespace BridgeScaleDotNet
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    BackColor = Color.FromArgb(37, 99, 235),
-                    ForeColor = Color.White,
-                    SelectionBackColor = Color.FromArgb(29, 78, 216),
-                    SelectionForeColor = Color.White,
+                    BackColor = Color.White,
+                    ForeColor = Color.FromArgb(15, 76, 129),
+                    SelectionBackColor = Color.FromArgb(219, 234, 254),
+                    SelectionForeColor = Color.FromArgb(15, 76, 129),
                     Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold)
                 }
             };
@@ -133,26 +149,106 @@ namespace BridgeScaleDotNet
 
             dgvMaterials.CellFormatting -= dgvMaterials_CellFormatting;
             dgvMaterials.CellFormatting += dgvMaterials_CellFormatting;
+            dgvMaterials.DataError -= dgvMaterials_DataError;
+            dgvMaterials.DataError += dgvMaterials_DataError;
         }
 
         private void dgvMaterials_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex < 0 ||
-                e.ColumnIndex < 0 ||
-                dgvMaterials.Columns[e.ColumnIndex].Name != "Edit")
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            string columnName = dgvMaterials.Columns[e.ColumnIndex].Name;
+            if (columnName == "SL")
+            {
+                e.Value = (e.RowIndex + 1).ToString();
+                e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                e.FormattingApplied = true;
+                return;
+            }
+
+            if (columnName != "Edit")
                 return;
 
             // Reapply the action-cell style after alternating-row styles are inherited.
             e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            e.CellStyle.BackColor = Color.FromArgb(37, 99, 235);
-            e.CellStyle.ForeColor = Color.White;
-            e.CellStyle.SelectionBackColor = Color.FromArgb(29, 78, 216);
-            e.CellStyle.SelectionForeColor = Color.White;
+            e.CellStyle.BackColor = Color.White;
+            e.CellStyle.ForeColor = Color.FromArgb(15, 76, 129);
+            e.CellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
+            e.CellStyle.SelectionForeColor = Color.FromArgb(15, 76, 129);
+            e.CellStyle.Padding = new Padding(6, 3, 6, 3);
             e.CellStyle.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             e.FormattingApplied = true;
         }
 
-        private async void btnSave_Click(object sender, EventArgs e)
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (_allMaterials == null)
+                return;
+
+            string searchText = txtSearch.Text.Trim().Replace("'", "''");
+            DataView view = _allMaterials.DefaultView;
+            view.RowFilter = string.IsNullOrWhiteSpace(searchText)
+                ? string.Empty
+                : $"Matrial_desc LIKE '%{searchText}%'";
+
+            dgvMaterials.DataSource = view.ToTable();
+            UpdateTotalLabel();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
+            LoadMaterials();
+            lblSyncStatus.Text = "Material list refreshed.";
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Filter = "CSV file (*.csv)|*.csv";
+                dialog.FileName = "Materials.csv";
+
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                StringBuilder csv = new StringBuilder();
+                csv.AppendLine("SL,Material Description,Created,Updated");
+
+                for (int index = 0; index < dgvMaterials.Rows.Count; index++)
+                {
+                    DataGridViewRow row = dgvMaterials.Rows[index];
+                    csv.AppendLine(string.Join(",",
+                        index + 1,
+                        CsvValue(row.Cells["Matrial_desc"].Value),
+                        CsvValue(row.Cells["EntryDate"].Value),
+                        CsvValue(row.Cells["EditDate"].Value)));
+                }
+
+                File.WriteAllText(dialog.FileName, csv.ToString(), Encoding.UTF8);
+                lblSyncStatus.Text = "Material list exported.";
+            }
+        }
+
+        private static string CsvValue(object value)
+        {
+            string text = Convert.ToString(value) ?? string.Empty;
+            return "\"" + text.Replace("\"", "\"\"") + "\"";
+        }
+
+        private void dgvMaterials_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+            e.Cancel = true;
+        }
+
+        private void UpdateTotalLabel()
+        {
+            lblTotal.Text = "Total: " + dgvMaterials.Rows.Count + " Materials";
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
         {
             if (_isSaving || !ValidateMaterial())
                 return;
@@ -166,9 +262,7 @@ namespace BridgeScaleDotNet
                 LoadMaterials();
                 ResetMaterialForm();
 
-                // The local save finishes before the network sync starts.
-                //string syncMessage = await _syncService.SyncMaterial();
-                //lblSyncStatus.Text = syncMessage;
+                lblSyncStatus.Text = "Material saved locally.";
                 MessageBox.Show("Material saved locally.\r\n",
                     "Material", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -198,6 +292,19 @@ namespace BridgeScaleDotNet
             using (SqlConnection connection = DbContext.GetConn())
             {
                 connection.Open();
+
+                if (string.IsNullOrWhiteSpace(code))
+                {
+                    const string nextCodeQuery = @"
+                        SELECT ISNULL(MAX(TRY_CONVERT(INT, Matrial_code)), 0) + 1
+                        FROM Scale_Matrial
+                        WHERE ISNULL(IsDelete, 0) = 0";
+
+                    using (SqlCommand nextCodeCommand = new SqlCommand(nextCodeQuery, connection))
+                    {
+                        code = Convert.ToString(nextCodeCommand.ExecuteScalar());
+                    }
+                }
 
                 const string duplicateQuery = @"
                     SELECT COUNT(1)
@@ -282,6 +389,8 @@ namespace BridgeScaleDotNet
                 }
             }
 
+            SavedMaterialId = materialId;
+
             return new MaterialSyncRequest
             {
                 MaterialID = materialId,
@@ -309,24 +418,7 @@ namespace BridgeScaleDotNet
 
         private bool ValidateMaterial()
         {
-            string code = txtMaterialCode.Text.Trim();
             string description = txtMaterialName.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(code))
-            {
-                MessageBox.Show("Please enter material code.", "Material",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMaterialCode.Focus();
-                return false;
-            }
-
-            if (code.Length > 30)
-            {
-                MessageBox.Show("Material code cannot exceed 30 characters.", "Material",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMaterialCode.Focus();
-                return false;
-            }
 
             if (string.IsNullOrWhiteSpace(description))
             {
@@ -336,9 +428,9 @@ namespace BridgeScaleDotNet
                 return false;
             }
 
-            if (description.Length > 30)
+            if (description.Length > 50)
             {
-                MessageBox.Show("Material description cannot exceed 30 characters.", "Material",
+                MessageBox.Show("Material description cannot exceed 50 characters.", "Material",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaterialName.Focus();
                 return false;
@@ -353,10 +445,11 @@ namespace BridgeScaleDotNet
                 return;
 
             string action = dgvMaterials.Columns[e.ColumnIndex].Name;
-            int materialId = Convert.ToInt32(dgvMaterials.Rows[e.RowIndex].Cells["MaterialID"].Value);
+            if (action != "Edit")
+                return;
 
-            if (action == "Edit")
-                BeginEdit(materialId);
+            int materialId = Convert.ToInt32(dgvMaterials.Rows[e.RowIndex].Cells["MaterialID"].Value);
+            BeginEdit(materialId);
         }
 
         private void BeginEdit(int materialId)
@@ -369,7 +462,7 @@ namespace BridgeScaleDotNet
             txtMaterialCode.Text = Convert.ToString(row.Cells["Matrial_code"].Value);
             txtMaterialName.Text = Convert.ToString(row.Cells["Matrial_desc"].Value);
             btnSave.Text = "Update";
-            txtMaterialCode.Focus();
+            txtMaterialName.Focus();
         }
 
         private DataGridViewRow FindMaterialRow(int materialId)
@@ -389,12 +482,21 @@ namespace BridgeScaleDotNet
             _editingMaterialId = null;           
             txtMaterialName.Clear();
             btnSave.Text = "Save";
-            txtMaterialCode.Focus();
+            txtMaterialName.Focus();
 
             if (materials != null && materials.Rows.Count > 0)
             {
                 txtMaterialCode.Text = materials.Rows[0]["NextMaterialCode"].ToString();
             }
+            else
+            {
+                txtMaterialCode.Clear();
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ResetMaterialForm();
         }
 
         private async void btnSync_Click(object sender, EventArgs e)
@@ -437,10 +539,12 @@ namespace BridgeScaleDotNet
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            //Close();
-            this.Hide();
-            FrmMain frmMain = new FrmMain();
-            frmMain.ShowDialog();
+            Close();
+        }
+
+        private void txtMaterialName_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

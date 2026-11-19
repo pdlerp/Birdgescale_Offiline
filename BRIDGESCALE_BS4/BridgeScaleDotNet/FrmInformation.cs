@@ -127,7 +127,7 @@ namespace BridgeScaleDotNet
 
         private void ApplyProfessionalStyle()
         {
-            var pageBack = Color.FromArgb(243, 246, 250);
+            var pageBack = Color.FromArgb(236, 242, 249);
             var panelBack = Color.White;
             var labelColor = Color.FromArgb(51, 65, 85);
             var inputBack = Color.FromArgb(248, 250, 252);
@@ -147,6 +147,7 @@ namespace BridgeScaleDotNet
             panel1.Size = new Size(panel1.Width, 620);
             panel1.BackColor = panelBack;
             panel1.BorderStyle = BorderStyle.None;
+            panel1.Padding = new Padding(8);
             panel1.Paint += (sender, e) =>
             {
                 using (var pen = new Pen(borderColor))
@@ -241,11 +242,22 @@ namespace BridgeScaleDotNet
             StyleButton(btnSync, sync);
             StyleButton(btnSeller, primary);
             StyleButton(btnBuyer, primary);
+            StyleButton(btnMaterial, primary);
+
+            btnReport.Location = new Point(298, 510);
+            btnSave.Location = new Point(504, 510);
+            button3.Location = new Point(710, 510);
+            btnSync.Location = new Point(915, 510);
+            btnReport.Size = new Size(200, 48);
+            btnSave.Size = new Size(200, 48);
+            button3.Size = new Size(200, 48);
+            btnSync.Size = new Size(200, 48);
 
             btnSeller.Text = "+";
             btnBuyer.Text = "+";
             btnSeller.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             btnBuyer.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnMaterial.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
 
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.FlatAppearance.BorderSize = 0;
@@ -260,14 +272,18 @@ namespace BridgeScaleDotNet
             textMessage.ForeColor = Color.FromArgb(146, 64, 14);
             textMessage.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblSyncStatus.AutoSize = false;
-            lblSyncStatus.Location = new Point(textMessage.Left, 592);
-            lblSyncStatus.Size = new Size(260, 22);
+            lblSyncStatus.Location = new Point(8, 565);
+            lblSyncStatus.Size = new Size(420, 22);
 
-            textMessage.Location = new Point(textMessage.Left, 618);
-            textMessage.Size = new Size(textMessage.Width, 34);
+            textMessage.Location = new Point(8, 588);
+            textMessage.Size = new Size(1300, 26);
 
             lblSyncStatus.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblSyncStatus.ForeColor = Color.FromArgb(79, 70, 229);
+
+            btnRefresh.Size = new Size(56, 56);
+            btnRefresh.Location = new Point(1286, 20);
+            btnRefresh.Cursor = Cursors.Hand;
         }
 
         private void StyleButton(System.Windows.Forms.Button button, Color backColor)
@@ -757,6 +773,7 @@ namespace BridgeScaleDotNet
                             {
                                 cmbSeller.SelectedValue = 0;
                                 cmbSeller.Text = r["SellerName"].ToString();
+                                txtSellerName.Text = r["SellerName"].ToString();
                             }
 
 
@@ -768,6 +785,7 @@ namespace BridgeScaleDotNet
                             {
                                 cmbBuyer.SelectedValue = 0;
                                 cmbBuyer.Text = r["BuyerName"].ToString();
+                                txtBuyerName.Text = r["BuyerName"].ToString();
                             }
 
 
@@ -1324,18 +1342,17 @@ namespace BridgeScaleDotNet
 
         private void cmbSeller_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbSeller.SelectedIndex > 0)
+            if (cmbSeller.SelectedValue != null &&
+                int.TryParse(Convert.ToString(cmbSeller.SelectedValue), out int sellerId) &&
+                sellerId > 0)
             {
-                string id = null;
-                id = cmbSeller.SelectedValue.ToString();
-
-                string query = $"SELECT * FROM Scale_Clint WHERE Clint_type = 'SUPPLIER' AND ISNULL(IsDelete, 0) = 0 and ClientID = '{id}'";
+                string query = $"SELECT * FROM Scale_Clint WHERE ClientTypeID = 1 AND ISNULL(IsDelete, 0) = 0 and ClientID = '{sellerId}'";
                 dt = DbContext.Execute(query);
                 if (dt != null && dt.Rows.Count > 0)
                 {
-                    txtSellerName.Text = dt.Rows[0]["Clint_code"] == DBNull.Value
+                    txtSellerName.Text = dt.Rows[0]["C_name"] == DBNull.Value
                         ? ""
-                        : dt.Rows[0]["Clint_code"].ToString();
+                        : dt.Rows[0]["C_name"].ToString();
 
                     txtSellerAddress.Text = dt.Rows[0]["Address"] == DBNull.Value
                         ? ""
@@ -1347,31 +1364,28 @@ namespace BridgeScaleDotNet
                     txtSellerAddress.Text = "";
                 }
             }
+            else
+            {
+                txtSellerName.Text = "";
+                txtSellerAddress.Text = "";
+            }
         }
 
         private void cmbBuyer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbBuyer.SelectedIndex > 0 && cmbBuyer.SelectedValue != null)
+            if (cmbBuyer.SelectedValue != null &&
+                int.TryParse(Convert.ToString(cmbBuyer.SelectedValue), out int buyerId) &&
+                buyerId > 0)
             {
-                string id = Convert.ToString(cmbBuyer.SelectedValue);
+                string query = $"SELECT * FROM Scale_Clint WHERE ClientTypeID = 2 AND ISNULL(IsDelete, 0) = 0 AND ClientID = '{buyerId}'";
+                dt = DbContext.Execute(query);
 
-                if (!string.IsNullOrWhiteSpace(id))
+                if (dt != null && dt.Rows.Count > 0)
                 {
-                    string query = $"SELECT * FROM Scale_Clint WHERE Clint_type = 'BUYER' AND ISNULL(IsDelete, 0) = 0 AND ClientID = '{id}'";
-                    dt = DbContext.Execute(query);
+                    DataRow row = dt.Rows[0];
 
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        DataRow row = dt.Rows[0];
-
-                        txtBuyerName.Text = Convert.ToString(row["Clint_code"]);
-                        txtBuyerAddress.Text = Convert.ToString(row["Address"]);
-                    }
-                    else
-                    {
-                        txtBuyerName.Text = string.Empty;
-                        txtBuyerAddress.Text = string.Empty;
-                    }
+                    txtBuyerName.Text = Convert.ToString(row["C_name"]);
+                    txtBuyerAddress.Text = Convert.ToString(row["Address"]);
                 }
                 else
                 {
@@ -1448,37 +1462,43 @@ namespace BridgeScaleDotNet
 
         private void btnSeller_Click(object sender, EventArgs e)
         {
-            string url = "https://btlerp.badshatex.com/Scale/ScaleClient?menuId=1939&pageName=ScaleClient";
+            using (FrmSupplier frmSupplier = new FrmSupplier())
+            {
+                frmSupplier.ShowDialog(this);
 
-            try
-            {
-                Process.Start(new ProcessStartInfo
+                if (frmSupplier.SavedSupplierId.HasValue)
                 {
-                    FileName = url,
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unable to open the report.\n" + ex.Message);
+                    SellerInformation_S(true);
+                    cmbSeller.SelectedValue = frmSupplier.SavedSupplierId.Value;
+                }
             }
         }
 
         private void btnBuyer_Click(object sender, EventArgs e)
         {
-            string url = "https://btlerp.badshatex.com/Scale/ScaleClient?menuId=1939&pageName=ScaleClient";
+            using (FrmBuyer frmBuyer = new FrmBuyer())
+            {
+                frmBuyer.ShowDialog(this);
 
-            try
-            {
-                Process.Start(new ProcessStartInfo
+                if (frmBuyer.SavedBuyerId.HasValue)
                 {
-                    FileName = url,
-                    UseShellExecute = true
-                });
+                    Buyer_information_S(true);
+                    cmbBuyer.SelectedValue = frmBuyer.SavedBuyerId.Value;
+                }
             }
-            catch (Exception ex)
+        }
+
+        private void btnMaterial_Click(object sender, EventArgs e)
+        {
+            using (FrmMaterial frmMaterial = new FrmMaterial())
             {
-                MessageBox.Show("Unable to open the report.\n" + ex.Message);
+                frmMaterial.ShowDialog(this);
+
+                if (frmMaterial.SavedMaterialId.HasValue)
+                {
+                    LoadMaterials(true);
+                    cmbMaterial.SelectedValue = frmMaterial.SavedMaterialId.Value;
+                }
             }
         }
 
@@ -1521,9 +1541,9 @@ namespace BridgeScaleDotNet
         #region Material Dropdownlist
 
 
-        public void LoadMaterials()
+        public void LoadMaterials(bool forceReload = false)
         {
-            if (string.IsNullOrWhiteSpace(cmbMaterial.Text))
+            if (forceReload || string.IsNullOrWhiteSpace(cmbMaterial.Text))
             {
                 string query = "SELECT *, Matrial_desc_WithCode = concat(Matrial_code, '  ', Matrial_desc) FROM Scale_Matrial WHERE ISNULL(IsDelete, 0) = 0";
                 dt = DbContext.Execute(query);
@@ -1578,11 +1598,11 @@ namespace BridgeScaleDotNet
 
         #region Buyer & Selleer
 
-        public void Buyer_information_S()
+        public void Buyer_information_S(bool forceReload = false)
         {
-            if (string.IsNullOrWhiteSpace(cmbBuyer.Text))
+            if (forceReload || string.IsNullOrWhiteSpace(cmbBuyer.Text))
             {
-                string query = "SELECT * FROM Scale_Clint WHERE Clint_type = 'CUSTOMER' AND ISNULL(IsDelete, 0) = 0 AND isnull(C_name,'') != ''";
+                string query = "SELECT * FROM Scale_Clint WHERE ClientTypeID = 2 AND ISNULL(IsDelete, 0) = 0 AND isnull(C_name,'') != ''";
                 dt = DbContext.Execute(query);
                 _allBuyerData = dt != null ? dt.Copy() : null;
 
@@ -1630,11 +1650,11 @@ namespace BridgeScaleDotNet
             }
         }
 
-        public void SellerInformation_S()
+        public void SellerInformation_S(bool forceReload = false)
         {
-            if (string.IsNullOrWhiteSpace(cmbSeller.Text))
+            if (forceReload || string.IsNullOrWhiteSpace(cmbSeller.Text))
             {
-                string query = "SELECT * FROM Scale_Clint WHERE Clint_type = 'SUPPLIER' AND ISNULL(IsDelete, 0) = 0 AND isnull(C_name,'') != ''";
+                string query = "SELECT * FROM Scale_Clint WHERE ClientTypeID = 1 AND ISNULL(IsDelete, 0) = 0 AND isnull(C_name,'') != ''";
                 dt = DbContext.Execute(query);
                 _allSellerData = dt != null ? dt.Copy() : null;
 
