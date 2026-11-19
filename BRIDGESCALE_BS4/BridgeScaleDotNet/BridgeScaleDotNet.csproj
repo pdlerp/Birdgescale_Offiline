@@ -290,6 +290,12 @@
     <Compile Include="FrmSupplier.Designer.cs">
       <DependentUpon>FrmSupplier.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmTruck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTruck.Designer.cs">
+      <DependentUpon>FrmTruck.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmBuyer.cs">
       <SubType>Form</SubType>
     </Compile>

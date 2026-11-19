@@ -88,6 +88,9 @@
             this.cmbScale = new System.Windows.Forms.ComboBox();
             this.txtOperatorName = new System.Windows.Forms.TextBox();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.cmbOwnTruck = new System.Windows.Forms.ComboBox();
+            this.btnOwnTruck = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.transferPanel.SuspendLayout();
             this.SuspendLayout();
@@ -106,6 +109,9 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnOwnTruck);
+            this.panel1.Controls.Add(this.cmbOwnTruck);
+            this.panel1.Controls.Add(this.label23);
             this.panel1.Controls.Add(this.btnMaterial);
             this.panel1.Controls.Add(this.lblSyncStatus);
             this.panel1.Controls.Add(this.textMessage);
@@ -250,7 +256,7 @@
             this.transferPanel.Controls.Add(this.label22);
             this.transferPanel.Controls.Add(this.cmbTransferFrom);
             this.transferPanel.Controls.Add(this.label18);
-            this.transferPanel.Location = new System.Drawing.Point(9, 308);
+            this.transferPanel.Location = new System.Drawing.Point(9, 342);
             this.transferPanel.Name = "transferPanel";
             this.transferPanel.Size = new System.Drawing.Size(1307, 43);
             this.transferPanel.TabIndex = 26;
@@ -270,7 +276,7 @@
             // label22
             // 
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(714, 19);
+            this.label22.Location = new System.Drawing.Point(714, 16);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(216, 24);
             this.label22.TabIndex = 25;
@@ -290,7 +296,7 @@
             // label18
             // 
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(13, 15);
+            this.label18.Location = new System.Drawing.Point(13, 12);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(216, 24);
             this.label18.TabIndex = 23;
@@ -302,7 +308,7 @@
             this.chkTransfer.AutoSize = true;
             this.chkTransfer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkTransfer.ForeColor = System.Drawing.Color.Maroon;
-            this.chkTransfer.Location = new System.Drawing.Point(588, 272);
+            this.chkTransfer.Location = new System.Drawing.Point(588, 315);
             this.chkTransfer.MaximumSize = new System.Drawing.Size(100, 100);
             this.chkTransfer.MinimumSize = new System.Drawing.Size(200, 30);
             this.chkTransfer.Name = "chkTransfer";
@@ -453,7 +459,7 @@
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(23, 228);
+            this.label6.Location = new System.Drawing.Point(23, 271);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(213, 24);
             this.label6.TabIndex = 4;
@@ -520,7 +526,7 @@
             // 
             // txtChallanNo
             // 
-            this.txtChallanNo.Location = new System.Drawing.Point(246, 268);
+            this.txtChallanNo.Location = new System.Drawing.Point(246, 311);
             this.txtChallanNo.Multiline = true;
             this.txtChallanNo.Name = "txtChallanNo";
             this.txtChallanNo.Size = new System.Drawing.Size(329, 34);
@@ -528,7 +534,7 @@
             // 
             // txtTruckNo
             // 
-            this.txtTruckNo.Location = new System.Drawing.Point(246, 227);
+            this.txtTruckNo.Location = new System.Drawing.Point(246, 270);
             this.txtTruckNo.Multiline = true;
             this.txtTruckNo.Name = "txtTruckNo";
             this.txtTruckNo.Size = new System.Drawing.Size(329, 34);
@@ -633,7 +639,7 @@
             // label20
             // 
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(7, 375);
+            this.label20.Location = new System.Drawing.Point(7, 384);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(1305, 24);
             this.label20.TabIndex = 4;
@@ -644,7 +650,7 @@
             // lblChallan
             // 
             this.lblChallan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChallan.Location = new System.Drawing.Point(23, 272);
+            this.lblChallan.Location = new System.Drawing.Point(23, 315);
             this.lblChallan.Name = "lblChallan";
             this.lblChallan.Size = new System.Drawing.Size(213, 24);
             this.lblChallan.TabIndex = 4;
@@ -778,6 +784,41 @@
             this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // label23
+            // 
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(36, 230);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(202, 24);
+            this.label23.TabIndex = 33;
+            this.label23.Text = "Own Truck :";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cmbOwnTruck
+            // 
+            this.cmbOwnTruck.FormattingEnabled = true;
+            this.cmbOwnTruck.Location = new System.Drawing.Point(244, 234);
+            this.cmbOwnTruck.Name = "cmbOwnTruck";
+            this.cmbOwnTruck.Size = new System.Drawing.Size(329, 24);
+            this.cmbOwnTruck.TabIndex = 34;
+            this.cmbOwnTruck.SelectedIndexChanged += new System.EventHandler(this.cmbOwnTruck_SelectedIndexChanged);
+            // 
+            // btnOwnTruck
+            // 
+            this.btnOwnTruck.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnOwnTruck.FlatAppearance.BorderSize = 0;
+            this.btnOwnTruck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOwnTruck.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOwnTruck.ForeColor = System.Drawing.Color.White;
+            this.btnOwnTruck.Location = new System.Drawing.Point(582, 233);
+            this.btnOwnTruck.Name = "btnOwnTruck";
+            this.btnOwnTruck.Size = new System.Drawing.Size(35, 24);
+            this.btnOwnTruck.TabIndex = 35;
+            this.btnOwnTruck.Text = "+";
+            this.btnOwnTruck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnOwnTruck.UseVisualStyleBackColor = false;
+            this.btnOwnTruck.Click += new System.EventHandler(this.btnOwnTruck_Click);
+            // 
             // FrmInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -864,5 +905,8 @@
         private System.Windows.Forms.TextBox textMessage;
         private System.Windows.Forms.Label lblSyncStatus;
         private System.Windows.Forms.Button btnMaterial;
+        public System.Windows.Forms.ComboBox cmbOwnTruck;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button btnOwnTruck;
     }
 }

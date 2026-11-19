@@ -52,10 +52,13 @@ namespace BridgeScaleDotNet
         private DataTable _allSellerData;
         private DataTable _allBuyerData;
         private DataTable _allMaterialData;
+        private DataTable _allOwnTruckData;
+        private bool _isLoadingOwnTrucks;
         private bool _isFilteringWeight = false;
         private bool _isFilteringSeller = false;
         private bool _isFilteringBuyer = false;
         private bool _isFilteringMaterial = false;
+        private bool _isFilteringOwnTruck = false;
 
 
    
@@ -97,6 +100,7 @@ namespace BridgeScaleDotNet
             SellerInformation_S();
             WeightType("ALL");
             LoadMaterials();
+            LoadOwnTrucks();
             GetOperatorBSName();
 
             txtHiddenWeightID.Text = null;
@@ -123,6 +127,13 @@ namespace BridgeScaleDotNet
             cmbMaterial.AutoCompleteMode = AutoCompleteMode.None;
             cmbMaterial.AutoCompleteSource = AutoCompleteSource.None;
             cmbMaterial.TextUpdate += cmbMaterial_TextUpdate;
+
+            cmbOwnTruck.DropDownStyle = ComboBoxStyle.DropDown;
+            cmbOwnTruck.AutoCompleteMode = AutoCompleteMode.None;
+            cmbOwnTruck.AutoCompleteSource = AutoCompleteSource.None;
+            cmbOwnTruck.DisplayMember = "TruckNo";
+            cmbOwnTruck.ValueMember = "TruckID";
+            cmbOwnTruck.TextUpdate += cmbOwnTruck_TextUpdate;
         }
 
         private void ApplyProfessionalStyle()
@@ -1502,6 +1513,71 @@ namespace BridgeScaleDotNet
             }
         }
 
+        private void btnOwnTruck_Click(object sender, EventArgs e)
+        {
+            using (FrmTruck frmTruck = new FrmTruck())
+            {
+                frmTruck.ShowDialog(this);
+
+                if (frmTruck.SavedTruckId.HasValue)
+                {
+                    LoadOwnTrucks(true);
+                    cmbOwnTruck.SelectedValue = frmTruck.SavedTruckId.Value;
+                }
+            }
+        }
+
+        private void cmbOwnTruck_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingOwnTrucks || _isFilteringOwnTruck)
+                return;
+
+            if (cmbOwnTruck.SelectedItem is DataRowView row)
+            {
+                txtTruckNo.Text = Convert.ToString(row["TruckNo"]);
+                txtDriverName.Text = Convert.ToString(row["DriverName"]);
+            }
+        }
+
+        private void cmbOwnTruck_TextUpdate(object sender, EventArgs e)
+        {
+            if (_isLoadingOwnTrucks || _isFilteringOwnTruck || _allOwnTruckData == null)
+                return;
+
+            try
+            {
+                _isFilteringOwnTruck = true;
+                string searchText = cmbOwnTruck.Text.Trim().Replace("'", "''");
+                DataView view = _allOwnTruckData.DefaultView;
+
+                if (string.IsNullOrWhiteSpace(searchText))
+                {
+                    view.RowFilter = string.Empty;
+                }
+                else
+                {
+                    view.RowFilter =
+                        $"TruckNo LIKE '%{searchText}%' " +
+                        $"OR DriverName LIKE '%{searchText}%' " +
+                        $"OR MobileNo LIKE '%{searchText}%' " +
+                        $"OR Convert(TruckID,'System.String') LIKE '%{searchText}%'";
+                }
+
+                DataTable filteredTrucks = view.ToTable();
+                cmbOwnTruck.DataSource = null;
+                cmbOwnTruck.DataSource = filteredTrucks;
+                cmbOwnTruck.DisplayMember = "TruckNo";
+                cmbOwnTruck.ValueMember = "TruckID";
+                cmbOwnTruck.Text = searchText;
+                cmbOwnTruck.SelectionStart = cmbOwnTruck.Text.Length;
+                cmbOwnTruck.DroppedDown = true;
+            }
+            finally
+            {
+                _isFilteringOwnTruck = false;
+            }
+        }
+
         private void cmbWeightID_TextUpdate(object sender, EventArgs e)
         {
             if (_isFilteringWeight) return;
@@ -1597,6 +1673,47 @@ namespace BridgeScaleDotNet
         #endregion
 
         #region Buyer & Selleer
+
+        #region Own Truck
+
+        public void LoadOwnTrucks(bool forceReload = false)
+        {
+            if (!forceReload && _allOwnTruckData != null)
+                return;
+
+            const string query = @"
+                SELECT TruckID, TruckNo, DriverName, MobileNo
+                FROM Scale_Truck
+                ORDER BY TruckNo";
+
+            try
+            {
+                _isLoadingOwnTrucks = true;
+                DataTable trucks = DbContext.Execute(query);
+                _allOwnTruckData = trucks != null ? trucks.Copy() : new DataTable();
+
+                cmbOwnTruck.DataSource = null;
+                cmbOwnTruck.Items.Clear();
+                cmbOwnTruck.DisplayMember = "TruckNo";
+                cmbOwnTruck.ValueMember = "TruckID";
+                cmbOwnTruck.DataSource = _allOwnTruckData;
+                cmbOwnTruck.SelectedIndex = -1;
+                cmbOwnTruck.Text = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _allOwnTruckData = new DataTable();
+                cmbOwnTruck.DataSource = null;
+                cmbOwnTruck.Items.Clear();
+                textMessage.Text = "Own truck list unavailable: " + ex.Message;
+            }
+            finally
+            {
+                _isLoadingOwnTrucks = false;
+            }
+        }
+
+        #endregion Own Truck
 
         public void Buyer_information_S(bool forceReload = false)
         {
@@ -1703,10 +1820,9 @@ namespace BridgeScaleDotNet
             }
         }
 
-        #endregion Buyer & Selleer             
 
-        
-        
+
+        #endregion Buyer & Selleer             
     }
 
     public static class AppSession
