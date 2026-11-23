@@ -81,6 +81,34 @@ namespace BridgeScaleDotNet.Services
             }
         }
 
+        //public async bool PingServer()
+        //{
+        //    bool isServerAvailable = false;
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        client.Timeout = TimeSpan.FromSeconds(10);
+
+        //        var response = await client.GetAsync(
+        //            "https://btlerp.badshatex.com/api/scaleInformation/ping"
+        //        );
+
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            var content = await response.Content.ReadAsStringAsync();
+
+        //            MessageBox.Show(
+        //                $"Status: {(int)response.StatusCode} {response.StatusCode}\n\n" +
+        //                $"Response: {content}"
+        //            );
+
+        //            isServerAvailable = false;
+        //        }
+
+        //        isServerAvailable = true;
+        //    }
+        //    return isServerAvailable;
+        //}
+
         #region sync Scal Information
 
         public async Task<string> SyncScaleInformationAsync()

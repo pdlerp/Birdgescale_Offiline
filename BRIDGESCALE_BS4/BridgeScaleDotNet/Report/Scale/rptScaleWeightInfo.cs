@@ -12,5 +12,14 @@ namespace BTLERP.Web.Report.Scale
         {
             InitializeComponent();
         }
+
+        private void xrTableCell20_BeforePrint(object sender, CancelEventArgs e)
+        {
+            XRTableCell cell = sender as XRTableCell;
+
+            cell.ExpressionBindings.Add(
+                new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "ToolTip", "Click To Print")
+                );
+        }
     }
 }

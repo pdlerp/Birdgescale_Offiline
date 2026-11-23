@@ -136,176 +136,176 @@ namespace BridgeScaleDotNet
             cmbOwnTruck.TextUpdate += cmbOwnTruck_TextUpdate;
         }
 
-        private void ApplyProfessionalStyle()
-        {
-            var pageBack = Color.FromArgb(236, 242, 249);
-            var panelBack = Color.White;
-            var labelColor = Color.FromArgb(51, 65, 85);
-            var inputBack = Color.FromArgb(248, 250, 252);
-            var readOnlyBack = Color.FromArgb(241, 245, 249);
-            var borderColor = Color.FromArgb(203, 213, 225);
-            var primary = Color.FromArgb(37, 99, 235);
-            var success = Color.FromArgb(22, 163, 74);
-            var danger = Color.FromArgb(220, 38, 38);
-            var warning = Color.FromArgb(124, 45, 18);
-            var sync = Color.FromArgb(79, 70, 229);
+        //private void ApplyProfessionalStyle()
+        //{
+        //    var pageBack = Color.FromArgb(236, 242, 249);
+        //    var panelBack = Color.White;
+        //    var labelColor = Color.FromArgb(51, 65, 85);
+        //    var inputBack = Color.FromArgb(248, 250, 252);
+        //    var readOnlyBack = Color.FromArgb(241, 245, 249);
+        //    var borderColor = Color.FromArgb(203, 213, 225);
+        //    var primary = Color.FromArgb(37, 99, 235);
+        //    var success = Color.FromArgb(22, 163, 74);
+        //    var danger = Color.FromArgb(220, 38, 38);
+        //    var warning = Color.FromArgb(124, 45, 18);
+        //    var sync = Color.FromArgb(79, 70, 229);
 
-            BackColor = pageBack;
-            Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            ClientSize = new Size(ClientSize.Width, 760);
+        //    BackColor = pageBack;
+        //    Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+        //    ClientSize = new Size(ClientSize.Width, 760);
 
-            panel1.Location = new Point(panel1.Left, 108);
-            panel1.Size = new Size(panel1.Width, 620);
-            panel1.BackColor = panelBack;
-            panel1.BorderStyle = BorderStyle.None;
-            panel1.Padding = new Padding(8);
-            panel1.Paint += (sender, e) =>
-            {
-                using (var pen = new Pen(borderColor))
-                {
-                    e.Graphics.DrawRectangle(pen, 0, 0, panel1.Width - 1, panel1.Height - 1);
-                }
-            };
+        //    panel1.Location = new Point(panel1.Left, 108);
+        //    panel1.Size = new Size(panel1.Width, 620);
+        //    panel1.BackColor = panelBack;
+        //    panel1.BorderStyle = BorderStyle.None;
+        //    panel1.Padding = new Padding(8);
+        //    panel1.Paint += (sender, e) =>
+        //    {
+        //        using (var pen = new Pen(borderColor))
+        //        {
+        //            e.Graphics.DrawRectangle(pen, 0, 0, panel1.Width - 1, panel1.Height - 1);
+        //        }
+        //    };
 
-            transferPanel.BackColor = panelBack;
-            transferPanel.ForeColor = labelColor;
-            transferPanel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            transferPanel.Height = 52;
+        //    transferPanel.BackColor = panelBack;
+        //    transferPanel.ForeColor = labelColor;
+        //    transferPanel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        //    transferPanel.Height = 52;
 
-            foreach (var label in new[]
-            {
-                label1, label2, label3, label4, label5, label6, label7, label8, label9,
-                label10, label11, label12, label13, label15, label16, label17,
-                label18, label22, lblChallan
-            })
-            {
-                label.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-                label.ForeColor = labelColor;
-            }
+        //    foreach (var label in new[]
+        //    {
+        //        label1, label2, label3, label4, label5, label6, label7, label8, label9,
+        //        label10, label11, label12, label13, label15, label16, label17,
+        //        label18, label22, lblChallan
+        //    })
+        //    {
+        //        label.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        //        label.ForeColor = labelColor;
+        //    }
 
-            label14.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            label14.ForeColor = Color.FromArgb(15, 23, 42);
+        //    label14.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+        //    label14.ForeColor = Color.FromArgb(15, 23, 42);
 
-            label19.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label19.ForeColor = warning;
-            label19.Text = "Out Weight = Unload Truck\r\nIn Weight = Load Truck";
+        //    label19.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+        //    label19.ForeColor = warning;
+        //    label19.Text = "Out Weight = Unload Truck\r\nIn Weight = Load Truck";
 
-            foreach (var separator in new[] { label20, label21 })
-            {
-                separator.Text = "";
-                separator.Height = 1;
-                separator.BackColor = borderColor;
-            }
+        //    foreach (var separator in new[] { label20, label21 })
+        //    {
+        //        separator.Text = "";
+        //        separator.Height = 1;
+        //        separator.BackColor = borderColor;
+        //    }
 
-            foreach (var combo in new[]
-            {
-                cmbScale, cmbWeightID, cmbWeightType, cmbMaterial, cmbSeller, cmbBuyer,
-                cmbTransferFrom, cmbTransferTo
-            })
-            {
-                combo.Font = new Font("Segoe UI", 11F);
-                combo.BackColor = Color.White;
-                combo.ForeColor = Color.FromArgb(15, 23, 42);
-                combo.ItemHeight = 24;
-                combo.Size = new Size(combo.Width, 34);
-                combo.IntegralHeight = false;
-            }
+        //    foreach (var combo in new[]
+        //    {
+        //        cmbScale, cmbWeightID, cmbWeightType, cmbMaterial, cmbSeller, cmbBuyer,
+        //        cmbTransferFrom, cmbTransferTo
+        //    })
+        //    {
+        //        combo.Font = new Font("Segoe UI", 11F);
+        //        combo.BackColor = Color.White;
+        //        combo.ForeColor = Color.FromArgb(15, 23, 42);
+        //        combo.ItemHeight = 24;
+        //        combo.Size = new Size(combo.Width, 34);
+        //        combo.IntegralHeight = false;
+        //    }
 
-            foreach (var textBox in new[]
-            {
-                txtOperatorName, txtQty, txtDriverName, txtTruckNo, txtChallanNo,
-                txtSellerName, txtSellerAddress, txtBuyerName, txtBuyerAddress
-            })
-            {
-                textBox.Font = new Font("Segoe UI", 10F);
-                textBox.BorderStyle = BorderStyle.FixedSingle;
-                textBox.BackColor = textBox.ReadOnly ? readOnlyBack : inputBack;
-                textBox.ForeColor = Color.FromArgb(15, 23, 42);
-            }
+        //    foreach (var textBox in new[]
+        //    {
+        //        txtOperatorName, txtQty, txtDriverName, txtTruckNo, txtChallanNo,
+        //        txtSellerName, txtSellerAddress, txtBuyerName, txtBuyerAddress
+        //    })
+        //    {
+        //        textBox.Font = new Font("Segoe UI", 10F);
+        //        textBox.BorderStyle = BorderStyle.FixedSingle;
+        //        textBox.BackColor = textBox.ReadOnly ? readOnlyBack : inputBack;
+        //        textBox.ForeColor = Color.FromArgb(15, 23, 42);
+        //    }
 
-            txtOperatorName.Enabled = true;
-            txtOperatorName.ReadOnly = true;
-            txtOperatorName.TabStop = false;
-            txtOperatorName.BackColor = readOnlyBack;
+        //    txtOperatorName.Enabled = true;
+        //    txtOperatorName.ReadOnly = true;
+        //    txtOperatorName.TabStop = false;
+        //    txtOperatorName.BackColor = readOnlyBack;
 
-            foreach (var weightTextBox in new[] { txtGrossWeight, txtTareWeight })
-            {
-                weightTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-                weightTextBox.BorderStyle = BorderStyle.FixedSingle;
-                weightTextBox.BackColor = Color.FromArgb(236, 253, 245);
-                weightTextBox.ForeColor = Color.FromArgb(6, 78, 59);
-            }
+        //    foreach (var weightTextBox in new[] { txtGrossWeight, txtTareWeight })
+        //    {
+        //        weightTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+        //        weightTextBox.BorderStyle = BorderStyle.FixedSingle;
+        //        weightTextBox.BackColor = Color.FromArgb(236, 253, 245);
+        //        weightTextBox.ForeColor = Color.FromArgb(6, 78, 59);
+        //    }
 
-            foreach (var timeLabel in new[] { lblGrossWeightTime, lblTareWeightTime })
-            {
-                timeLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-                timeLabel.ForeColor = Color.FromArgb(100, 116, 139);
-            }
+        //    foreach (var timeLabel in new[] { lblGrossWeightTime, lblTareWeightTime })
+        //    {
+        //        timeLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        //        timeLabel.ForeColor = Color.FromArgb(100, 116, 139);
+        //    }
 
-            txtScaleWeight.BackColor = Color.FromArgb(15, 23, 42);
-            txtScaleWeight.ForeColor = Color.White;
-            txtScaleWeight.BorderStyle = BorderStyle.None;
-            txtScaleWeight.Font = new Font("Segoe UI", 38F, FontStyle.Bold);
+        //    txtScaleWeight.BackColor = Color.FromArgb(15, 23, 42);
+        //    txtScaleWeight.ForeColor = Color.White;
+        //    txtScaleWeight.BorderStyle = BorderStyle.None;
+        //    txtScaleWeight.Font = new Font("Segoe UI", 38F, FontStyle.Bold);
 
-            StyleButton(btnSave, success);
-            StyleButton(btnReport, primary);
-            StyleButton(button3, danger);
-            StyleButton(btnSync, sync);
-            StyleButton(btnSeller, primary);
-            StyleButton(btnBuyer, primary);
-            StyleButton(btnMaterial, primary);
+        //    StyleButton(btnSave, success);
+        //    StyleButton(btnReport, primary);
+        //    StyleButton(button3, danger);
+        //    StyleButton(btnSync, sync);
+        //    StyleButton(btnSeller, primary);
+        //    StyleButton(btnBuyer, primary);
+        //    StyleButton(btnMaterial, primary);
 
-            btnReport.Location = new Point(298, 510);
-            btnSave.Location = new Point(504, 510);
-            button3.Location = new Point(710, 510);
-            btnSync.Location = new Point(915, 510);
-            btnReport.Size = new Size(200, 48);
-            btnSave.Size = new Size(200, 48);
-            button3.Size = new Size(200, 48);
-            btnSync.Size = new Size(200, 48);
+        //    btnReport.Location = new Point(298, 510);
+        //    btnSave.Location = new Point(504, 510);
+        //    button3.Location = new Point(710, 510);
+        //    btnSync.Location = new Point(915, 510);
+        //    btnReport.Size = new Size(200, 48);
+        //    btnSave.Size = new Size(200, 48);
+        //    button3.Size = new Size(200, 48);
+        //    btnSync.Size = new Size(200, 48);
 
-            btnSeller.Text = "+";
-            btnBuyer.Text = "+";
-            btnSeller.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            btnBuyer.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            btnMaterial.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+        //    btnSeller.Text = "+";
+        //    btnBuyer.Text = "+";
+        //    btnSeller.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+        //    btnBuyer.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+        //    btnMaterial.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
 
-            btnRefresh.FlatStyle = FlatStyle.Flat;
-            btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.BackColor = Color.FromArgb(226, 232, 240);
+        //    btnRefresh.FlatStyle = FlatStyle.Flat;
+        //    btnRefresh.FlatAppearance.BorderSize = 0;
+        //    btnRefresh.BackColor = Color.FromArgb(226, 232, 240);
 
-            chkTransfer.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            chkTransfer.ForeColor = Color.FromArgb(127, 29, 29);
-            chkTransfer.BackColor = panelBack;
+        //    chkTransfer.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        //    chkTransfer.ForeColor = Color.FromArgb(127, 29, 29);
+        //    chkTransfer.BackColor = panelBack;
 
-            textMessage.BorderStyle = BorderStyle.FixedSingle;
-            textMessage.BackColor = Color.FromArgb(255, 251, 235);
-            textMessage.ForeColor = Color.FromArgb(146, 64, 14);
-            textMessage.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblSyncStatus.AutoSize = false;
-            lblSyncStatus.Location = new Point(8, 565);
-            lblSyncStatus.Size = new Size(420, 22);
+        //    textMessage.BorderStyle = BorderStyle.FixedSingle;
+        //    textMessage.BackColor = Color.FromArgb(255, 251, 235);
+        //    textMessage.ForeColor = Color.FromArgb(146, 64, 14);
+        //    textMessage.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        //    lblSyncStatus.AutoSize = false;
+        //    lblSyncStatus.Location = new Point(8, 565);
+        //    lblSyncStatus.Size = new Size(420, 22);
 
-            textMessage.Location = new Point(8, 588);
-            textMessage.Size = new Size(1300, 26);
+        //    textMessage.Location = new Point(8, 588);
+        //    textMessage.Size = new Size(1300, 26);
 
-            lblSyncStatus.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblSyncStatus.ForeColor = Color.FromArgb(79, 70, 229);
+        //    lblSyncStatus.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        //    lblSyncStatus.ForeColor = Color.FromArgb(79, 70, 229);
 
-            btnRefresh.Size = new Size(56, 56);
-            btnRefresh.Location = new Point(1286, 20);
-            btnRefresh.Cursor = Cursors.Hand;
-        }
+        //    btnRefresh.Size = new Size(56, 56);
+        //    btnRefresh.Location = new Point(1286, 20);
+        //    btnRefresh.Cursor = Cursors.Hand;
+        //}
 
-        private void StyleButton(System.Windows.Forms.Button button, Color backColor)
-        {
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 0;
-            button.BackColor = backColor;
-            button.ForeColor = Color.White;
-            button.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            button.Cursor = Cursors.Hand;
-        }
+        //private void StyleButton(System.Windows.Forms.Button button, Color backColor)
+        //{
+        //    button.FlatStyle = FlatStyle.Flat;
+        //    button.FlatAppearance.BorderSize = 0;
+        //    button.BackColor = backColor;
+        //    button.ForeColor = Color.White;
+        //    button.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+        //    button.Cursor = Cursors.Hand;
+        //}
 
         private void Timer()
         {
@@ -1346,7 +1346,7 @@ namespace BridgeScaleDotNet
             {
                 MessageBox.Show("Unable to open the report.\n" + ex.Message);
             }
-        }
+        }        
 
         #endregion
 

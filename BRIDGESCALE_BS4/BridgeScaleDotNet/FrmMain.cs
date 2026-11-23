@@ -1,5 +1,7 @@
 ﻿using BridgeScaleDotNet.Models;
 using BridgeScaleDotNet.Services;
+using BTLERP.Web.Report.Scale;
+using DevExpress.XtraReports.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -64,10 +66,41 @@ namespace BridgeScaleDotNet
             await RunSyncAsync(true);
         }
 
-        private void btnWeightReport_Click(object sender, EventArgs e)
+        private async void btnWeightReport_Click(object sender, EventArgs e)
         {
-            GetWebScaleList();
+            SyncService syncService = new SyncService();
+            bool serverAvailable = await syncService.IsServerAvailableAsync();
+            if (serverAvailable)
+            {
+                //Web report
+                GetWebScaleList();
+
+                //GetSummaryReport();
+            }
+            else
+            {
+                //Local report
+                GetSummaryReport();
+            }
         }
+
+        public void GetSummaryReport()
+        {
+            try
+            {
+                rptScaleWeightInfo report = new rptScaleWeightInfo();
+                report.RequestParameters = true;
+                report.CreateDocument();
+                ReportPrintTool printTool = new ReportPrintTool(report);
+                printTool.ShowRibbonPreviewDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the report.\n" + ex.Message);
+            }
+        }
+
+
 
         public void GetWebScaleList()
         {
