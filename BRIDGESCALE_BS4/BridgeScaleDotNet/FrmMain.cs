@@ -21,6 +21,7 @@ namespace BridgeScaleDotNet
     {
         SerialPort serialPort1 = new SerialPort();
         private Timer syncTimer;
+        private bool _isReportLoading;
         string globalMessge = string.Empty;
         private readonly SyncService _syncService = new SyncService();
         public FrmMain()
@@ -144,9 +145,53 @@ namespace BridgeScaleDotNet
 
         }
 
-        private void btnWeightReportLocal_Click(object sender, EventArgs e)
+        private async void btnWeightReportLocal_Click(object sender, EventArgs e)
         {
-            GetSummaryReport();
+            if (_isReportLoading)
+                return;
+
+            _isReportLoading = true;
+            btnWeightReportLocal.Enabled = false;
+            UseWaitCursor = true;
+
+            ReportLoadingForm loadingForm = new ReportLoadingForm();
+            loadingForm.Show(this);
+            loadingForm.BringToFront();
+            loadingForm.Refresh();
+
+            try
+            {
+                rptScaleWeightInfo report = await Task.Run(() =>
+                {
+                    rptScaleWeightInfo result = new rptScaleWeightInfo
+                    {
+                        RequestParameters = true
+                    };
+                    result.CreateDocument();
+                    return result;
+                });
+
+                if (!IsDisposed)
+                {
+                    loadingForm.Close();
+                    ReportPrintTool printTool = new ReportPrintTool(report);
+                    printTool.ShowRibbonPreviewDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the report.\n" + ex.Message,
+                    "Local Report", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (!loadingForm.IsDisposed)
+                    loadingForm.Close();
+
+                UseWaitCursor = false;
+                btnWeightReportLocal.Enabled = true;
+                _isReportLoading = false;
+            }
         }
         public void GetSummaryReport()
         {
@@ -162,6 +207,48 @@ namespace BridgeScaleDotNet
             {
                 MessageBox.Show("Unable to open the report.\n" + ex.Message);
             }
+        }
+    }
+
+    internal sealed class ReportLoadingForm : Form
+    {
+        private readonly Label _messageLabel;
+        private readonly ProgressBar _progressBar;
+
+        public ReportLoadingForm(string message = "Preparing local report...")
+        {
+            Text = "Local Report";
+            StartPosition = FormStartPosition.CenterParent;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            ControlBox = false;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            ShowInTaskbar = false;
+            ClientSize = new Size(360, 118);
+            BackColor = Color.White;
+            Font = new Font("Segoe UI", 10F);
+
+            _messageLabel = new Label
+            {
+                AutoSize = false,
+                Dock = DockStyle.Top,
+                Height = 58,
+                Text = message + "\r\nPlease wait.",
+                TextAlign = ContentAlignment.MiddleCenter,
+                ForeColor = Color.FromArgb(15, 63, 117),
+                Font = new Font("Segoe UI", 11F, FontStyle.Bold)
+            };
+
+            _progressBar = new ProgressBar
+            {
+                Style = ProgressBarStyle.Marquee,
+                MarqueeAnimationSpeed = 30,
+                Dock = DockStyle.Bottom,
+                Height = 12
+            };
+
+            Controls.Add(_messageLabel);
+            Controls.Add(_progressBar);
         }
     }
 }

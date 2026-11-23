@@ -75,6 +75,7 @@ namespace BridgeScaleDotNet
         private Timer syncTimer;
         private int _syncSeconds = 1 * 60;
         private bool _isSyncRunning = false;
+        private bool _isLoadingAction;
 
         private readonly SyncService _syncService = new SyncService();
         public FrmInformation()
@@ -929,11 +930,46 @@ namespace BridgeScaleDotNet
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
+            if (_isLoadingAction || !ValidateForm())
+                return;
 
-            if (!ValidateForm()) return;
+            _isLoadingAction = true;
+            btnSave.Enabled = false;
+            btnReport.Enabled = false;
+            UseWaitCursor = true;
 
+            using (ReportLoadingForm loadingForm = new ReportLoadingForm("Saving scale information..."))
+            {
+                loadingForm.Show(this);
+                loadingForm.BringToFront();
+                loadingForm.Refresh();
+
+                try
+                {
+                    await SaveScaleInformationAsync(loadingForm);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to save scale information.\n" + ex.Message,
+                        "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (!loadingForm.IsDisposed)
+                        loadingForm.Close();
+
+                    UseWaitCursor = false;
+                    btnSave.Enabled = true;
+                    btnReport.Enabled = true;
+                    _isLoadingAction = false;
+                }
+            }
+        }
+
+        private async Task SaveScaleInformationAsync(ReportLoadingForm loadingForm)
+        {
             string bsName = cmbScale.Text;
             string bSNameWithID = cmbWeightID.Text;
 
@@ -1007,7 +1043,7 @@ namespace BridgeScaleDotNet
 
                 if (!String.IsNullOrEmpty(informationID))
                 {
-                    GetReport(informationID);
+                    await GetReportAsync(informationID, loadingForm);
                 }
 
 
@@ -1015,11 +1051,39 @@ namespace BridgeScaleDotNet
             }
         }
 
-        private void btnReport_Click(object sender, EventArgs e)
+        private async void btnReport_Click(object sender, EventArgs e)
         {
+            if (_isLoadingAction)
+                return;
+
             if (!String.IsNullOrEmpty(informationID))
             {
-                GetReport(informationID);
+                _isLoadingAction = true;
+                btnSave.Enabled = false;
+                btnReport.Enabled = false;
+                UseWaitCursor = true;
+
+                using (ReportLoadingForm loadingForm = new ReportLoadingForm("Preparing scale report..."))
+                {
+                    loadingForm.Show(this);
+                    loadingForm.BringToFront();
+                    loadingForm.Refresh();
+
+                    try
+                    {
+                        await GetReportAsync(informationID, loadingForm);
+                    }
+                    finally
+                    {
+                        if (!loadingForm.IsDisposed)
+                            loadingForm.Close();
+
+                        UseWaitCursor = false;
+                        btnSave.Enabled = true;
+                        btnReport.Enabled = true;
+                        _isLoadingAction = false;
+                    }
+                }
             }
             else
             {
@@ -1319,7 +1383,7 @@ namespace BridgeScaleDotNet
             }
         }
 
-        public void GetReport(string infoID)
+        private async Task GetReportAsync(string infoID, ReportLoadingForm loadingForm = null)
         {
             string bsName = cmbScale.SelectedValue.ToString();
 
@@ -1339,20 +1403,27 @@ namespace BridgeScaleDotNet
 
             try
             {
-                rptScaleInfoSub report = new rptScaleInfoSub();
+                rptScaleInfoSub report = await Task.Run(() =>
+                {
+                    rptScaleInfoSub result = new rptScaleInfoSub();
+                    result.Parameters["InformationID"].Value = informationID;
+                    result.Parameters["InformationID"].Visible = false;
+                    result.RequestParameters = false;
+                    result.CreateDocument();
+                    return result;
+                });
 
-                report.Parameters["InformationID"].Value = informationID;
-                report.Parameters["InformationID"].Visible = false;
-
-                report.RequestParameters = false;
-
-                report.CreateDocument();
+                if (loadingForm != null && !loadingForm.IsDisposed)
+                    loadingForm.Close();
 
                 ReportPrintTool printTool = new ReportPrintTool(report);
                 printTool.ShowRibbonPreviewDialog();
             }
             catch (Exception ex)
             {
+                if (loadingForm != null && !loadingForm.IsDisposed)
+                    loadingForm.Close();
+
                 MessageBox.Show("Unable to open the report.\n" + ex.Message);
             }
         }        
