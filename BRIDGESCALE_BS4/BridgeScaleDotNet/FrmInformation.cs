@@ -318,15 +318,16 @@ namespace BridgeScaleDotNet
         }
         private async void syncTimer_Tick(object sender, EventArgs e)
         {
-            
-            _syncSeconds--;
-
-            lblSyncStatus.Text = $"Next sync in {_syncSeconds / 60:00}:{_syncSeconds % 60:00}";
-
-            if (_syncSeconds <= 0)
+            string counterID = cmbScale.SelectedValue.ToString();
+            if(counterID != "4")
             {
-                await RunSyncAsync();
-            }
+                _syncSeconds--;
+                lblSyncStatus.Text = $"Next sync in {_syncSeconds / 60:00}:{_syncSeconds % 60:00}";
+                if (_syncSeconds <= 0)
+                {
+                    await RunSyncAsync();
+                }
+            }           
         }
         private void CountdownTimer_Tick(object sender, EventArgs e)
         {
@@ -379,24 +380,32 @@ namespace BridgeScaleDotNet
 
         private async Task RunSyncAsync()
         {
-            btnSync.Enabled = false;
-            string message = string.Empty;
+            string counterID = cmbScale.SelectedValue.ToString();
 
-            try
-            {
-                message = await _syncService.SyncScaleInformationAsync();
-               
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Sync failed: " + ex.Message);
-            }
-            finally
-            {
-                btnSync.Enabled = true;
-            }
+            if(counterID != "4"){
+                btnSync.Enabled = false;
+                string message = string.Empty;
 
-            textMessage.Text = message;
+                try
+                {
+                    message = await _syncService.SyncScaleInformationAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Sync failed: " + ex.Message);
+                }
+                finally
+                {
+                    btnSync.Enabled = true;
+                }
+
+                textMessage.Text = message;
+            }
+            else
+            {
+                textMessage.Text = "Sync not valid for scale 4";
+            }        
         }
 
         //private async void syncTimer_Tick(object sender, EventArgs e)

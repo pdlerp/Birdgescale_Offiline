@@ -30,6 +30,9 @@
         {
             this.cmbWeightID = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnOwnTruck = new System.Windows.Forms.Button();
+            this.cmbOwnTruck = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.btnMaterial = new System.Windows.Forms.Button();
             this.lblSyncStatus = new System.Windows.Forms.Label();
             this.textMessage = new System.Windows.Forms.TextBox();
@@ -88,9 +91,6 @@
             this.cmbScale = new System.Windows.Forms.ComboBox();
             this.txtOperatorName = new System.Windows.Forms.TextBox();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.label23 = new System.Windows.Forms.Label();
-            this.cmbOwnTruck = new System.Windows.Forms.ComboBox();
-            this.btnOwnTruck = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.transferPanel.SuspendLayout();
             this.SuspendLayout();
@@ -164,6 +164,40 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1317, 682);
             this.panel1.TabIndex = 3;
+            // 
+            // btnOwnTruck
+            // 
+            this.btnOwnTruck.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnOwnTruck.FlatAppearance.BorderSize = 0;
+            this.btnOwnTruck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOwnTruck.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOwnTruck.ForeColor = System.Drawing.Color.White;
+            this.btnOwnTruck.Location = new System.Drawing.Point(582, 233);
+            this.btnOwnTruck.Name = "btnOwnTruck";
+            this.btnOwnTruck.Size = new System.Drawing.Size(35, 24);
+            this.btnOwnTruck.TabIndex = 35;
+            this.btnOwnTruck.Text = "+";
+            this.btnOwnTruck.UseVisualStyleBackColor = false;
+            this.btnOwnTruck.Click += new System.EventHandler(this.btnOwnTruck_Click);
+            // 
+            // cmbOwnTruck
+            // 
+            this.cmbOwnTruck.FormattingEnabled = true;
+            this.cmbOwnTruck.Location = new System.Drawing.Point(244, 234);
+            this.cmbOwnTruck.Name = "cmbOwnTruck";
+            this.cmbOwnTruck.Size = new System.Drawing.Size(329, 24);
+            this.cmbOwnTruck.TabIndex = 34;
+            this.cmbOwnTruck.SelectedIndexChanged += new System.EventHandler(this.cmbOwnTruck_SelectedIndexChanged);
+            // 
+            // label23
+            // 
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(36, 230);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(202, 24);
+            this.label23.TabIndex = 33;
+            this.label23.Text = "Own Truck :";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnMaterial
             // 
@@ -709,7 +743,7 @@
             // 
             this.label14.Font = new System.Drawing.Font("Segoe UI Variable Text", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label14.Location = new System.Drawing.Point(553, 28);
+            this.label14.Location = new System.Drawing.Point(553, 23);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(196, 35);
             this.label14.TabIndex = 4;
@@ -721,7 +755,7 @@
             this.txtScaleWeight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.txtScaleWeight.Font = new System.Drawing.Font("Times New Roman", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtScaleWeight.ForeColor = System.Drawing.Color.White;
-            this.txtScaleWeight.Location = new System.Drawing.Point(769, 12);
+            this.txtScaleWeight.Location = new System.Drawing.Point(769, 7);
             this.txtScaleWeight.Name = "txtScaleWeight";
             this.txtScaleWeight.Size = new System.Drawing.Size(494, 75);
             this.txtScaleWeight.TabIndex = 9;
@@ -777,47 +811,12 @@
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(1281, 12);
+            this.btnRefresh.Location = new System.Drawing.Point(1281, 7);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 75);
             this.btnRefresh.TabIndex = 9;
             this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // label23
-            // 
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(36, 230);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(202, 24);
-            this.label23.TabIndex = 33;
-            this.label23.Text = "Own Truck :";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cmbOwnTruck
-            // 
-            this.cmbOwnTruck.FormattingEnabled = true;
-            this.cmbOwnTruck.Location = new System.Drawing.Point(244, 234);
-            this.cmbOwnTruck.Name = "cmbOwnTruck";
-            this.cmbOwnTruck.Size = new System.Drawing.Size(329, 24);
-            this.cmbOwnTruck.TabIndex = 34;
-            this.cmbOwnTruck.SelectedIndexChanged += new System.EventHandler(this.cmbOwnTruck_SelectedIndexChanged);
-            // 
-            // btnOwnTruck
-            // 
-            this.btnOwnTruck.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnOwnTruck.FlatAppearance.BorderSize = 0;
-            this.btnOwnTruck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOwnTruck.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOwnTruck.ForeColor = System.Drawing.Color.White;
-            this.btnOwnTruck.Location = new System.Drawing.Point(582, 233);
-            this.btnOwnTruck.Name = "btnOwnTruck";
-            this.btnOwnTruck.Size = new System.Drawing.Size(35, 24);
-            this.btnOwnTruck.TabIndex = 35;
-            this.btnOwnTruck.Text = "+";
-            this.btnOwnTruck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnOwnTruck.UseVisualStyleBackColor = false;
-            this.btnOwnTruck.Click += new System.EventHandler(this.btnOwnTruck_Click);
             // 
             // FrmInformation
             // 

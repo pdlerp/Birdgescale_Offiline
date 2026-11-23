@@ -68,37 +68,21 @@ namespace BridgeScaleDotNet
 
         private async void btnWeightReport_Click(object sender, EventArgs e)
         {
+            FrmInformation frmInformation = new FrmInformation();
+            int counterID = (int)frmInformation.cmbScale.SelectedValue;
+
             SyncService syncService = new SyncService();
-            bool serverAvailable = await syncService.IsServerAvailableAsync();
-            if (serverAvailable)
-            {
-                //Web report
-                GetWebScaleList();
 
-                //GetSummaryReport();
-            }
-            else
+            if(counterID != 4)
             {
-                //Local report
-                GetSummaryReport();
+                bool serverAvailable = await syncService.IsServerAvailableAsync();
+                if (serverAvailable)
+                {
+                    //Web report
+                    GetWebScaleList();
+                }
             }
-        }
-
-        public void GetSummaryReport()
-        {
-            try
-            {
-                rptScaleWeightInfo report = new rptScaleWeightInfo();
-                report.RequestParameters = true;
-                report.CreateDocument();
-                ReportPrintTool printTool = new ReportPrintTool(report);
-                printTool.ShowRibbonPreviewDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unable to open the report.\n" + ex.Message);
-            }
-        }
+        }     
 
 
 
@@ -158,6 +142,26 @@ namespace BridgeScaleDotNet
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnWeightReportLocal_Click(object sender, EventArgs e)
+        {
+            GetSummaryReport();
+        }
+        public void GetSummaryReport()
+        {
+            try
+            {
+                rptScaleWeightInfo report = new rptScaleWeightInfo();
+                report.RequestParameters = true;
+                report.CreateDocument();
+                ReportPrintTool printTool = new ReportPrintTool(report);
+                printTool.ShowRibbonPreviewDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the report.\n" + ex.Message);
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ namespace BridgeScaleDotNet
             this.lblHeroTitle = new System.Windows.Forms.Label();
             this.lblHeroSubtitle = new System.Windows.Forms.Label();
             this.panelActions = new System.Windows.Forms.Panel();
+            this.btnWeightReportLocal = new System.Windows.Forms.Button();
             this.lblActionHeading = new System.Windows.Forms.Label();
             this.lblActionHint = new System.Windows.Forms.Label();
             this.btnNewWeight = new System.Windows.Forms.Button();
@@ -121,6 +122,7 @@ namespace BridgeScaleDotNet
             // 
             this.panelActions.BackColor = System.Drawing.Color.White;
             this.panelActions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelActions.Controls.Add(this.btnWeightReportLocal);
             this.panelActions.Controls.Add(this.lblActionHeading);
             this.panelActions.Controls.Add(this.lblActionHint);
             this.panelActions.Controls.Add(this.btnNewWeight);
@@ -131,6 +133,21 @@ namespace BridgeScaleDotNet
             this.panelActions.Name = "panelActions";
             this.panelActions.Size = new System.Drawing.Size(944, 286);
             this.panelActions.TabIndex = 2;
+            // 
+            // btnWeightReportLocal
+            // 
+            this.btnWeightReportLocal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(119)))), ((int)(((byte)(100)))));
+            this.btnWeightReportLocal.FlatAppearance.BorderSize = 0;
+            this.btnWeightReportLocal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWeightReportLocal.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+            this.btnWeightReportLocal.ForeColor = System.Drawing.Color.White;
+            this.btnWeightReportLocal.Location = new System.Drawing.Point(236, 174);
+            this.btnWeightReportLocal.Name = "btnWeightReportLocal";
+            this.btnWeightReportLocal.Size = new System.Drawing.Size(218, 78);
+            this.btnWeightReportLocal.TabIndex = 6;
+            this.btnWeightReportLocal.Text = "LOCAL REPORT";
+            this.btnWeightReportLocal.UseVisualStyleBackColor = false;
+            this.btnWeightReportLocal.Click += new System.EventHandler(this.btnWeightReportLocal_Click);
             // 
             // lblActionHeading
             // 
@@ -193,7 +210,7 @@ namespace BridgeScaleDotNet
             this.btnWeightReport.ForeColor = System.Drawing.Color.White;
             this.btnWeightReport.Location = new System.Drawing.Point(30, 174);
             this.btnWeightReport.Name = "btnWeightReport";
-            this.btnWeightReport.Size = new System.Drawing.Size(424, 78);
+            this.btnWeightReport.Size = new System.Drawing.Size(194, 78);
             this.btnWeightReport.TabIndex = 4;
             this.btnWeightReport.Text = "REPORT";
             this.btnWeightReport.UseVisualStyleBackColor = false;
@@ -312,5 +329,6 @@ namespace BridgeScaleDotNet
         private System.Windows.Forms.Label lblStatusIndicator;
         private System.Windows.Forms.Label lblStatusText;
         private System.Windows.Forms.TextBox textMessage1;
+        private System.Windows.Forms.Button btnWeightReportLocal;
     }
 }
