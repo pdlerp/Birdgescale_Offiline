@@ -809,6 +809,25 @@ namespace BridgeScaleDotNet
                                 txtBuyerName.Text = r["BuyerName"].ToString();
                             }
 
+                            // Restore transfer units saved with this weight ID.
+                            int transferFromId = GetOptionalInt(r, "TransferFrom");
+                            int transferToId = GetOptionalInt(r, "TransferTo");
+                            bool hasTransfer = transferFromId > 0 || transferToId > 0;
+
+                            chkTransfer.Checked = hasTransfer;
+                            transferPanel.Visible = hasTransfer;
+                            if (hasTransfer)
+                            {
+                                FillTransferCombo();
+                                cmbTransferFrom.SelectedIndex = -1;
+                                cmbTransferTo.SelectedIndex = -1;
+
+                                if (transferFromId > 0)
+                                    cmbTransferFrom.SelectedValue = transferFromId;
+                                if (transferToId > 0)
+                                    cmbTransferTo.SelectedValue = transferToId;
+                            }
+
 
                             // Weight type
                             //weightTypeID = SafeValue(r["weight_type"]);
@@ -1193,6 +1212,17 @@ namespace BridgeScaleDotNet
             return val == DBNull.Value ? "0" : val.ToString();
         }
 
+        private static int GetOptionalInt(DataRow row, string columnName)
+        {
+            if (row == null || !row.Table.Columns.Contains(columnName) ||
+                row[columnName] == DBNull.Value)
+                return 0;
+
+            return int.TryParse(Convert.ToString(row[columnName]), out int value)
+                ? value
+                : 0;
+        }
+
         private bool TryGetValidWeight(string value, out double weight)
         {
             return double.TryParse(value, out weight) && weight != 0;
@@ -1324,6 +1354,38 @@ namespace BridgeScaleDotNet
                 txtTruckNo.Focus();
                 return false;
             }
+
+            if (chkTransfer.Checked)
+            {
+                bool hasTransferFrom = int.TryParse(
+                    Convert.ToString(cmbTransferFrom.SelectedValue), out int transferFromId) &&
+                    transferFromId > 0;
+                bool hasTransferTo = int.TryParse(
+                    Convert.ToString(cmbTransferTo.SelectedValue), out int transferToId) &&
+                    transferToId > 0;
+
+                if (!hasTransferFrom || !hasTransferTo)
+                {
+                    MessageBox.Show("Please select both Transfer From and Transfer To.",
+                        "Invalid Transfer Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    if (!hasTransferFrom)
+                        cmbTransferFrom.Focus();
+                    else
+                        cmbTransferTo.Focus();
+
+                    return false;
+                }
+
+                if (transferFromId == transferToId)
+                {
+                    MessageBox.Show("Transfer From and Transfer To must be different.",
+                        "Invalid Transfer Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbTransferTo.Focus();
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -1341,6 +1403,9 @@ namespace BridgeScaleDotNet
 
             cmbBuyer.Text = "";
             cmbSeller.Text = "";
+
+            chkTransfer.Checked = false;
+            transferPanel.Visible = false;
 
             cmbTransferFrom.SelectedValue = 0;
             cmbTransferTo.SelectedValue = 0;
@@ -1517,6 +1582,9 @@ namespace BridgeScaleDotNet
 
         private void chkTransfer_CheckedChanged(object sender, EventArgs e)
         {
+            if (_isLoadingWeightInformation)
+                return;
+
             if (chkTransfer.Checked)
             {
                 transferPanel.Visible = true;
@@ -1530,6 +1598,9 @@ namespace BridgeScaleDotNet
 
         private void cmbTransferTo_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (_isLoadingWeightInformation)
+                return;
+
             if (cmbTransferFrom.SelectedValue?.Equals(cmbTransferTo.SelectedValue) == true)
             {
                 cmbTransferTo.SelectedIndex = -1;
@@ -1539,6 +1610,9 @@ namespace BridgeScaleDotNet
 
         private void cmbTransferFrom_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (_isLoadingWeightInformation)
+                return;
+
             if (cmbTransferFrom.SelectedValue?.Equals(cmbTransferTo.SelectedValue) == true)
             {
                 cmbTransferFrom.SelectedIndex = -1;

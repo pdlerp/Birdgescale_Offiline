@@ -141,9 +141,9 @@ namespace BridgeScaleDotNet
             this.btnWeightReportLocal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWeightReportLocal.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
             this.btnWeightReportLocal.ForeColor = System.Drawing.Color.White;
-            this.btnWeightReportLocal.Location = new System.Drawing.Point(236, 174);
+            this.btnWeightReportLocal.Location = new System.Drawing.Point(219, 174);
             this.btnWeightReportLocal.Name = "btnWeightReportLocal";
-            this.btnWeightReportLocal.Size = new System.Drawing.Size(218, 78);
+            this.btnWeightReportLocal.Size = new System.Drawing.Size(235, 78);
             this.btnWeightReportLocal.TabIndex = 6;
             this.btnWeightReportLocal.Text = "LOCAL REPORT";
             this.btnWeightReportLocal.UseVisualStyleBackColor = false;
@@ -210,7 +210,7 @@ namespace BridgeScaleDotNet
             this.btnWeightReport.ForeColor = System.Drawing.Color.White;
             this.btnWeightReport.Location = new System.Drawing.Point(30, 174);
             this.btnWeightReport.Name = "btnWeightReport";
-            this.btnWeightReport.Size = new System.Drawing.Size(194, 78);
+            this.btnWeightReport.Size = new System.Drawing.Size(175, 78);
             this.btnWeightReport.TabIndex = 4;
             this.btnWeightReport.Text = "REPORT";
             this.btnWeightReport.UseVisualStyleBackColor = false;

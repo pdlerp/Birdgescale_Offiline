@@ -115,6 +115,12 @@ namespace BridgeScaleDotNet.Services
         {
             //btnSync.Enabled = false;
 
+            if (!int.TryParse(BridgeScaleDotNet.Models.LocalStorage.CounterID, out int counterId) || counterId <= 0)
+                return "Sync skipped: no counter is selected.";
+
+            if (counterId == 4)
+                return "Sync not valid for scale 4.";
+
             try
             {
                 bool isAvailable = await IsServerAvailableAsync();

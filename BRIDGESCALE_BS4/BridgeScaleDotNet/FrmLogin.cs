@@ -97,8 +97,18 @@ namespace BridgeScaleDotNet
         {
             string username = txtUserName.Text.Trim();
             string password = txtPassword.Text.Trim();
-            string counterID = cmbScale.SelectedValue.ToString();
             string sql = string.Empty;
+
+            if (cmbScale.SelectedValue == null ||
+                !int.TryParse(Convert.ToString(cmbScale.SelectedValue), out int counterId) ||
+                counterId <= 0)
+            {
+                MessageBox.Show("Please select a scale.");
+                cmbScale.Focus();
+                return;
+            }
+
+            string counterID = counterId.ToString();
 
             if (string.Equals(username, "User Name", StringComparison.OrdinalIgnoreCase))
                 username = string.Empty;
@@ -160,6 +170,8 @@ namespace BridgeScaleDotNet
                         LocalStorage.OperatorID = operatorID;
                         LocalStorage.UserName = username;
                         LocalStorage.CounterID = counterID;
+                        AppSession.SelectedCounterID = counterId;
+                        AppSession.SelectedCounterName = cmbScale.Text;
                         FrmMain main = new FrmMain();
                         main.Show();
                         this.Hide();
