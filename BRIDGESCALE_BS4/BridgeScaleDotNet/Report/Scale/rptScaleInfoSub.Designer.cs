@@ -707,6 +707,7 @@
             this.xrTableCell88.Name = "xrTableCell88";
             this.xrTableCell88.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 2, 0, 0, 100F);
             this.xrTableCell88.StylePriority.UsePadding = false;
+            this.xrTableCell88.Text = "Transfer";
             this.xrTableCell88.Weight = 0.78544061302681845D;
             // 
             // xrTableCell89
@@ -721,6 +722,8 @@
             // xrTableCell90
             // 
             this.xrTableCell90.Borders = DevExpress.XtraPrinting.BorderSide.Right;
+            this.xrTableCell90.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Transfer_Unit]")});
             this.xrTableCell90.Font = new DevExpress.Drawing.DXFont("Tahoma", 9.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell90.Multiline = true;
             this.xrTableCell90.Name = "xrTableCell90";
@@ -1535,6 +1538,7 @@
             this.xrTableCell34.Name = "xrTableCell34";
             this.xrTableCell34.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 2, 0, 0, 100F);
             this.xrTableCell34.StylePriority.UsePadding = false;
+            this.xrTableCell34.Text = "Transfer";
             this.xrTableCell34.Weight = 0.78544061302681845D;
             // 
             // xrTableCell35
@@ -1549,6 +1553,8 @@
             // xrTableCell36
             // 
             this.xrTableCell36.Borders = DevExpress.XtraPrinting.BorderSide.Right;
+            this.xrTableCell36.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Transfer_Unit]")});
             this.xrTableCell36.Font = new DevExpress.Drawing.DXFont("Tahoma", 9.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell36.Multiline = true;
             this.xrTableCell36.Name = "xrTableCell36";

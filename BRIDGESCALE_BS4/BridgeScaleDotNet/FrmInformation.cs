@@ -754,6 +754,8 @@ namespace BridgeScaleDotNet
 
             txtHiddenWeightID.Text = weightID.ToString();
             ResetForm();
+            informationID = null;
+            hiddenWeightIDReport.Text = string.Empty;
 
             //string bsName = cmbScale.SelectedValue.ToString();
             //string queryInfo = $"SELECT * FROM Scale_Information WHERE weight_id = @weightID AND BSName = '{bsName}'";
@@ -783,7 +785,10 @@ namespace BridgeScaleDotNet
                         _isLoadingWeightInformation = true;
                         try
                         {
-                            hiddenWeightIDReport.Text = r["InformationID"].ToString();
+                            informationID = r["InformationID"] == DBNull.Value
+                                ? null
+                                : Convert.ToString(r["InformationID"]);
+                            hiddenWeightIDReport.Text = informationID ?? string.Empty;
 
                             // Seller / Buyer
                             if (r["ClientID_Seller"] != DBNull.Value)
@@ -947,6 +952,7 @@ namespace BridgeScaleDotNet
                     }
                 }
             }
+
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -1074,6 +1080,8 @@ namespace BridgeScaleDotNet
         {
             if (_isLoadingAction)
                 return;
+
+            //informationID = hiddenWeightIDReport.Text;
 
             if (!String.IsNullOrEmpty(informationID))
             {
